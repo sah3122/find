@@ -1,0 +1,45 @@
+/* table class */
+	table .left {text-align:left !important; padding-left:10px !important}
+	table .color {color:#979797 !important}
+	table .v-top {vertical-align: top}
+	table .b-top th, table .b-top td {border-top:2px solid #b9b9b9}
+	table .set-b th, table .set-b td {border-top:2px solid #e7e7e7; border-bottom:2px solid #b9b9b9}
+	td.ellipsis {position:relative; display: -webkit-box; text-overflow:ellipsis; overflow:hidden; -webkit-line-clamp: 1; -webkit-box-orient: vertical; white-space:nowrap}
+	td.ellipsis:after {content:"..."; position:absolute; bottom:0; right:0}
+	.overflow-h80 {overflow-y:auto; height:80px !important}
+	.overflow-h200 {overflow-y:auto; height:200px !important}
+	.overflow-h350 {overflow-y:auto; height:350px !important; background:url(../img/page/btn/group-select-border.png);}
+	.overflow-h400 {overflow-y:auto; height:400px !important}
+	.line {margin:0 2px}
+	.caption {color:#b1b1b1}
+	.caption.right {float:right; margin:2px 10px 0 0}
+	/* map table */
+	.map-pop-detail {width:200px !important; height:160px !important} 
+	.map-pop-detail .ds-tb {table-layout:fixed}
+	.map-pop-detail .ds-tb th {width:50px !important; height:20px !important; line-height:20px !important}
+	.map-pop-detail .ds-tb td {width:110px !important; height:20px !important; line-height:20px !important} 
+	.map-pop-detail .btn-map-message {float:right; width:50px; height:20px; line-height:20px; background:#ec3341; cursor:pointer; text-align:center; color:#fff}
+	/* // map table */
+	
+	/* - dashboard table */
+ 	.tb01-title {width:453px; table-layout:fixed}
+ 	.tb01-title.percent, .tb01.percent {width:100%}
+ 	.tb01-title.dash,
+ 	.tb01.dash {width:100%;}
+ 	.tb01-title tr th:first-child{background-image: none;}
+ 	.tb01-title tr th {height:45px; line-height:45px; background:#a3a3a3; color:#fff; font-size:13px; font-weight:600; text-align:center; background-image: url(../img/page/btn/paging-border.png);
+    background-position: left 50%;
+    background-repeat: no-repeat;}
+	.tb01 {width:453px; table-layout:fixed; word-break:break-all}
+	.tb01 tr td {height:45px; text-align:center}
+	.tb01-content {height:508px; overflow-y:auto; overflow-x:hidden}
+	.device-information-box-4 .tb01-content,
+	.customer-care-box-4 .tb01-content,
+	.character-management-box-4 .tb01-content {height:228px}
+	.tb01 .odd { background:#f2f2f2}
+    .tb01 .Even { background:#fff}
+	/* - // dashboard table */
+	
+	
+   /* - // table paging */
+/* // table class */

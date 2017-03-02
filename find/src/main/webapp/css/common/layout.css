@@ -1,0 +1,175 @@
+	html,body{width: 100%;height: 100%;}
+	/* Layout */
+	.wrap{
+		min-width: 1240px;
+		min-height:100%;
+		margin-bottom:-41px;
+	}
+	/* .wrap {position: relative; width: 100%; height: 100%;margin-bottom: -60px;} */
+	
+	#content{
+		position:relative;z-index:1;
+	}
+	
+	#headerHeight{height:76px;}
+	#footerHeight{clear:both;height:40px;width:100%;}
+	
+	section {width: 100%; }
+	section.content {position:relative}
+	.main_content {position:relative;}
+	.main_content img {width:100%;}
+	.summary {background: #e4e4e3; padding-top: 81px}
+	.summary_content {margin: 0 auto}
+	.summary_content h2 {color: #36353d}
+	.summary_content .explanation {color: #757575}
+	.go_top {display: none; position: fixed; cursor: pointer}
+	
+	.pc_main {display: block}
+	.mobile_main {display: none}
+
+	/* .wrap {min-width: 1240px} */
+	#header {position:absolute; z-index:2; top:0; width:100%; min-width:1240px; height:104px;background-image:url(../../images/page/header/header-bg.png); background-repeat:repeat-x; background-position:0 0; }
+	#header > div {position:relative; width:961px; height:76px; margin:0 auto}
+	#header .logo {float:left; width:155px; margin-right:40px; padding:38px 0 0 15px; background:none}
+	#header ul.header-menu:after {content:''; display:block; clear:both}
+	#header ul.header-menu li.header-menu:first-child {background:none}
+	#header ul.header-menu li.header-menu {float:left; padding:40px 15px 18px; background:url(../../images/page/header/menu-border.png) left 40px no-repeat; color:#757575; font-weight:600; /* cursor:pointer */}
+	#header ul.header-menu li.header-menu.active a {color:#ed1c24}
+	#header a + ul.submenu {display:none; position:absolute; z-index:2; top:80px; margin-left:-50px}
+	#header a.active + ul.submenu {display:block !important}
+	#header ul.submenu:after {content:''; display:block; clear:both}
+	#header ul.submenu li {float:left; padding:0 20px; color:#757575}
+	#header ul.submenu li.sub-active {color:#ed1c24}
+	#header ul.submenu li.sub-active a {color:#ed1c24}
+	#header a.active {color:#ed1c24}
+	
+	.content h2 {background:url(../../images/h2.png) no-repeat 0 50%; padding-left: 25px}
+
+	
+	.dashboard {background: #e4e4e3; padding-top: 81px}
+	.dashboard_content {width: 1240px; margin: 0 auto; padding: 44px 0 44px 180px}
+	.dashboard_content h2 {font-size: 22px; color: #36353d}
+	.dashboard_content h3 {padding: 25px 0 6px 25px; font-size: 20px; color: #ed1c24; border-bottom: 1px solid #fff}
+	.dashboard_content .features_title {margin: 10px 0; line-height: 30px; color: #666666; font-size: 17px; font-weight:700}
+	.dashboard_content .features_title li {padding: 0 35px}
+	.dashboard_content .features_title span {line-height: 26px; font-size: 17px; font-weight: normal; padding-left: 10px}
+	.dashboard_content .layout > li {display:inline-block; width: 290px; padding: 20px 10px; vertical-align: top; margin: 0 10px}
+	.dashboard_content .layout_img {padding: 15px 0; border-bottom: 1px solid #fff}
+	.dashboard_content .l_bg {background:url(../../images/layout_title_bg.png) no-repeat 0 0; width: 268px; height: 38px; line-height: 36px; text-align: center; color: #666; font-size: 17px; font-weight: 700}
+	.dashboard_content .layout_explanation {padding: 12px 0; line-height: 24px; color: #757575; font-size: 14px}
+	.dashboard_content .layout_explanation li {background:url(../../images/arrow.png) no-repeat left; padding: 0 10px}
+	
+	.position {background:url(../../images/bg_test.png) repeat 0 0}
+	.position_content {width: 1240px; margin: 0 auto; padding: 44px 0 44px 180px}
+	.position_content h2 {font-size: 22px; color: #36353d}
+	.position_content h3 {padding: 25px 0 6px 25px; font-size: 20px; color: #ed1c24; border-bottom: 1px solid #fff}
+	.position_content .features_title {margin: 10px 0; line-height: 30px; color: #666666; font-size: 17px; font-weight:700}
+	.position_content .features_title li {padding: 0 35px}
+	.position_content .features_title span {line-height: 26px; font-size: 17px; font-weight: normal; padding: 0 10px}
+	.position_content .layout > li {display:inline-block; width: 290px; padding: 20px 10px; vertical-align: top; margin: 0 10px}
+	.position_content .layout_img {padding: 15px 0}
+	.position_content .l_bg {background:url(../../images/layout_title_bg.png) no-repeat 0 0; width: 268px; height: 38px; line-height: 36px; text-align: center; color: #666; font-size: 17px; font-weight: 700}
+		
+	.menu {position: fixed; top: 0; left: 0; width:100%; height:100%}
+	.sub1 ul {background:url(../../images/left_menu_bg.png) no-repeat 0 0; width: 142px; height: 200px}
+	.sub2 ul {background:url(../../images/left_menu_bg2.png) no-repeat 0 0; width: 142px; height: 390px; padding: 10px 0}
+	.sub1 li {padding: 20px 0 20px 32px}
+	.sub2 li {padding: 17px 0 17px 32px}
+	.sub2 li:first-child {padding: 20px 0 20px 32px}
+	.left_menu {position: relative; width:1240px; margin:220px auto 0;}
+	.left_menu li {display: block; color: #757575; font-weight: 700; font-size:17px; background:url(../../images/left_menu_nor.png) no-repeat 10px 50%; cursor: pointer}
+	.left_menu li.active {background:url(../../images/left_menu_pre.png) no-repeat 10px 50%; color: #eb2e43}
+	
+	#footer {position:relative;clear:both; width:100%; min-width:1240px; font-size:12px; color:#a4a5aa; text-align:center; height:40px; line-height:40px; border-top:1px solid #efefef}
+	.go_top {right: 30px; bottom: 90px; }
+
+
+	/* mainpage 등록 폼 관련 css */
+	
+	.form-style-2{
+	    max-width: 500px;
+	    padding: 20px 12px 10px 20px;
+	    font: 13px Arial, Helvetica, sans-serif;
+	}
+	.form-style-2 label{
+	    display: block;
+	    margin: 0px 0px 15px 0px;
+	}
+	.form-style-2 label > span{
+	    width: 100px;
+	    font-weight: bold;
+	    float: left;
+	    padding-top: 8px;
+	    padding-right: 5px;
+	}
+	.form-style-2 span.required{
+	    color:red;
+	}
+	.form-style-2 .tel-number-field{
+	    width: 40px;
+	    text-align: center;
+	}
+	.form-style-2 input.input-field{
+	    width: 200px;
+	    
+	}
+	.form-style-2 input.tel-number-field{
+	    width: 64px;
+	}
+	.form-style-2 input.kind-field{
+	    width: 124px;
+	}
+	.form-style-2 input.lost-field{
+	    width: 90px;
+	}
+	
+	.form-style-2 input.input-field,
+	.form-style-2 input.lost-field, 
+	.form-style-2 .tel-number-field, 
+	.form-style-2 .kind-field,
+	.form-style-2 .textarea-field, 
+	.form-style-2 .select-field{
+	    box-sizing: border-box;
+	    -webkit-box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    border: 1px solid #C2C2C2;
+	    box-shadow: 1px 1px 4px #EBEBEB;
+	    -moz-box-shadow: 1px 1px 4px #EBEBEB;
+	    -webkit-box-shadow: 1px 1px 4px #EBEBEB;
+	    border-radius: 3px;
+	    -webkit-border-radius: 3px;
+	    -moz-border-radius: 3px;
+	    padding: 7px;
+	    outline: none;
+	}
+	.form-style-2 .input-field:focus, 
+	.form-style-2 .kind-field:focus, 
+	.form-style-2 .tel-number-field:focus, 
+	.form-style-2 .textarea-field:focus,  
+	.form-style-2 .select-field:focus,
+	.form-style-2 .lost-field:focus{
+	    border: 1px solid #0C0;
+	}
+	.form-style-2 .textarea-field{
+	    height:100px;
+	    width: 200px;
+	}
+	.form-style-2 input[type=submit],
+	.form-style-2 input[type=button]{
+	    border: none;
+	    padding: 8px 15px 8px 15px;
+	    background: #a3a3a3;
+	    color: #fff;
+	    box-shadow: 1px 1px 4px #DADADA;
+	    -moz-box-shadow: 1px 1px 4px #DADADA;
+	    -webkit-box-shadow: 1px 1px 4px #DADADA;
+	    border-radius: 3px;
+	    -webkit-border-radius: 3px;
+	    -moz-border-radius: 3px;
+	}
+	.form-style-2 input[type=submit]:hover,
+	.form-style-2 input[type=button]:hover{
+	    background: #8C8C8C;
+	    color: #fff;
+	}
+	

@@ -1,0 +1,164 @@
+	/* powertel */
+	.chrome_ment {position:absolute; bottom:10%; left:10%; font-size:200%; font-weight:700; color:#666; line-height:40px}
+	.chrome_ment a {color:#666}
+	.chrome_ment span {text-decoration:underline}
+	
+	/* 공통 class */
+	.block {display:block}
+	.login-info {float:right; position:absolute; z-index:2; top:5px; width:100%; height:25px; line-height:25px; color:#b9b9b9; font-size:12px; font-weight:600; text-align:right}
+	.login-info .btn-logout {float:right; color:#666; width:63px; height:21px; line-height:21px; text-align:center; margin-left:10px; background:url(../img/page/btn/btn-logout.png) 0 0 no-repeat; cursor:pointer}
+	.login-info span {color:#666}
+	.ollehmap-zoom-control {box-sizing: content-box !important} /* 올레맵 줌 */
+	.ollehmap-info-area {margin-top:4px; !important} /* 올레맵 상자 */
+	.ollehmap-info-content .ollehmap-info-content-overflow {overflow:hidden; box-sizing: content-box}
+	.ollehmap-info-defaultStyle {height:160px}
+	#password-clear {display: none;}
+	textarea{resize:none;}
+	/* // 공통 class */	
+
+	/* header class */
+	#header .header-btn-login {position:absolute; right:0; top:40px; font-size:12px; font-weight:600; color:#666; width:63px; height:21px; line-height:21px; text-align:center; background:url(../img/page/btn/btn-logout.png) 0 0 no-repeat; cursor:pointer}
+	/* // header class */
+
+	/* search */
+	#content .content-header {position:relative; height:40px; border-bottom:2px solid #b9b9b9}
+	#content .content-header.b-none {border:none}
+	#content .content-header h2 {background:none; font-size:18px; font-weight:600; color:#000001; height:40px; padding:6px 0 7px}
+	#content .content-header span {position:absolute; top:11px; right:0;}
+	#content .search {height:60px; padding:17px 0;}
+	#content .search input[type=text] {width: 208px; height:26px; background:#fff; padding:3px 10px; border:1px solid #d2d2d2; margin:0 10px}
+	#content .search select {width:128px; height:26px; background:#fff; padding:4px 10px; border:1px solid #d2d2d2}
+	#content .search .btn-search {display:inline-block; width:88px; height:26px; line-height:26px;background-color:#848484; padding-left:30px; color:#fff; font-size:13px; font-weight:600; cursor:pointer}
+	#content .search .icon-search {background-image:url(../img/page/btn/search-icon.png); background-position:8px 50%; background-repeat: no-repeat}		
+	#content .search .text-period {font-weight:600; color:#2e2e2e; margin:0 10px}
+	#content .search input.statistics-date {width:90px; text-align:center; margin:0}
+	#content .search .statistics-search-text {width:208px;}
+	#content .search input.send-history-date, 
+	#content .search input.ptt-date {width:90px; text-align:center; margin:0} 
+	#content .search select.ptt-time {width:65px; padding:0 0 0 5px;}
+	#content .search select.ptt-select {width:120px; margin-left:15px}
+	#content .search .send-history-text {width:350px !important}
+	#content .search .ptt-text {width:220px !important; margin: 0 10px 0 0 !important}
+	#status {margin-right:5px;}
+	/* // search */
+	
+	/* content class */
+		/* - content login */
+		#content .login {position:relative; width:922px; height:584px; margin:45px auto 45px; background:url(../img/page/login/login-bg.png) 0 0 no-repeat}
+		#content .login .login_box {position:absolute; top:78px; left:78px; width:290px; height:350px}
+		#content .login_box h2 {background:none; height:60px; font-size:40px; color:#393939; margin-bottom:10px}
+		#content .login_box .login_input_text {padding:22px 0; border-top:2px solid #4e4e50; border-bottom:1px solid #dadada; margin-bottom:30px}
+		#content .login_box .login_input_text:after {content:''; display:block; clear:both}
+		#content .login_input_text ul {float:left; width:200px; margin-right:8px}
+		#content .login_input_text ul li {height:33px}
+		#content .login_input_text ul li:first-child {margin-bottom:10px}
+		#content .login_input_text ul li input {width:100%; background:#fff; padding:6px 10px 7px; height:33px; color:#a3a3a3; font-size:12px; border:1px solid #e5e5e5}
+		#content .login_input_text .btn-login {float:left; width:82px; height:76px; line-height:76px; color:#fff; font-size:20px; font-weight:700; background:#ed1c24; text-align:center; cursor:pointer}
+		#content .login .btn-ktpowertel,
+		#content .login .btn-easycon-mainfuncton {display:block}
+		#content .login .btn-ktpowertel {margin-bottom:15px}
+		/* - // content login */
+		
+		
+			
+		#content .dashboard {background:#fff; padding:0}
+		#content .dashboard .btn-expand,
+		#content .dashboard-content-1.f-left .btn-expand{position:absolute; top:0; right:0; width:44px; height:44px; background-color:#e44548; background-image:url(../img/page/dashboard/icon-dashboard-search.png); background-repeat:no-repeat; background-position:50%; cursor:pointer; text-indent:-9999px}
+		#content .dashboard .btn-plus {position:absolute; top:0; right:0; width:44px; height:44px; background-color:#e44548; background-image:url(../img/page/dashboard/icon-dashboard-plus.png); background-repeat:no-repeat; background-position:50%; cursor:pointer; text-indent:-9999px}
+		
+			/* ms-conventions */
+			
+			/* #content .dashboard .ms-conventions {position:absolute; top:34px; right:10px; background:url(../img/page/dashboard/ms-border.png) 0 0 no-repeat; width:115px; height:27px; line-height:27px; text-align:center; color:#2c3e50; font-size:13px; font-weight:600} */
+			#content .dashboard .ms-conventions {position:absolute; top:3px; right:3px; background:url(../img/page/dashboard/ms-border.png) 0 0 no-repeat; width:115px; height:27px; line-height:27px; text-align:center; color:#2c3e50; font-size:13px; font-weight:600}
+			#content .dashboard-content-1.f-left .ms-conventions {position:absolute; top:3px; right:3px; background:url(../img/page/dashboard/ms-border.png) 0 0 no-repeat; width:115px; height:27px; line-height:27px; text-align:center; color:#2c3e50; font-size:13px; font-weight:600}
+			.full-map .full-map-gps .ms-conventions {position:absolute; top:3px; right:14px; background:url(../img/page/dashboard/ms-border.png) 0 0 no-repeat; width:115px; height:27px; line-height:27px; text-align:center; color:#2c3e50; font-size:13px; font-weight:600}
+			/* // ms-conventions  */
+			/* dashboard FullMap */
+			#content .h-position-control {background:#f5f5f5; position:relative}
+			#content .h-position-control-content {position:relative; width:1240px; height:850px; margin:0 auto; padding-top:130px}
+			#content .f-left{float:left}
+			#content .dashboard-content-1 {position:relative; width:100%; min-width:1240px; margin:0 auto; padding:24px 10px 0px 10px}
+			#content .dashboard-content-1.f-left{min-width:922px; width:922px; height:700px; padding: 0;}
+			#content .position-control-1 {width:100%; height:633px; border-top:2px solid #e44548; border-right:1px solid #c3c3c3; border-bottom:1px solid #c3c3c3; border-left:1px solid #c3c3c3; background:#fff}
+			#content .position-control-1 .position-control-box-1 li:first-child {position:relative; height:44px; line-height:43px; text-align:center; font-size:17px; font-weight:600; color:#e44548; border-bottom:1px solid #c3c3c3}
+			#content .position-control-1 .position-control-box-1 li:first-child + li {height:553px; border-bottom:1px solid #c3c3c3}
+			#content .position-control-1 .position-control-box-1 li:first-child + li + li{position:relative; height:33px; line-height:33px; text-align:center;}
+			#content .position-control-1 div.gps, #content .position-control-1 .gps div{display:inline-block; font-weight:600}
+			#content .position-control-1 .gps div{width:27px; text-align:center; color:#fff; margin-left:5px}
+			#content .position-control-1 .position-control-box-1 li:first-child + li + li span {font-weight:600; margin:0 10px}
+			#content .all {position:absolute; top:0; left:10px; color:#000; font-weight:600;}
+			#content .all > div {background:#000; height:17px; line-height:17px;}
+			#content .gps-on {color:#ed1c24}
+			#content .gps-off {color:#4e4e4e}
+			#content .stop {color:#3662a0}
+			#content .no-response {color:#000}
+			#content .ptt {color:#ffbc02}
+			#content .gps-on .red{background:url(../img/page/dashboard/bg-red.png) 0 9px no-repeat}
+			#content .gps-off .gray{background:url(../img/page/dashboard/bg-gray.png) 0 9px no-repeat}
+			#content .stop .blue{background:url(../img/page/dashboard/bg-blue.png) 0 9px no-repeat}
+			#content .no-response .black{background:url(../img/page/dashboard/bg-black.png) 0 9px no-repeat}
+			#content .ptt .yellow{background:url(../img/page/dashboard/bg-yellow.png) 0 9px no-repeat}
+			/* // dashboard FullMap */
+			/* dashboard MAP&LIST분할 */
+			#content .dashboard .dashboard-content {position:relative; }
+			#content .dashboard .dashboard-content:after { content:""; clear:both; display:block; *zoom:1;}
+			#content .dashboard .position-control,
+			#content .dashboard .pid {float:left; height:600px; border-top:1px ; border-bottom:1px solid #c3c3c3; background:#fdfdfd}
+			#content .dashboard .pid {width:360px;}
+			#content .position-control .position-control-box li:first-child,
+			#content .pid .pid-box li:first-child {position:relative; height:44px; line-height:43px; text-align:center; font-size:17px; font-weight:600; color:#a3a3a3; border-bottom:1px solid #c3c3c3;background-color: #fff}
+			#content .pid .pid-box li:first-child + li {height:553px; overflow:auto}
+			#content .position-control .position-control-box li:first-child + li {height:520px; border-bottom:1px solid #c3c3c3}
+			#content .position-control .position-control-box li:first-child + li + li{position:relative; height:33px; line-height:33px; text-align:center}
+			#content .position-control div.gps, #content .position-control .gps div{display:inline-block; font-weight:600}
+			#content .position-control .gps div{width:27px; text-align:center; color:#fff; margin-left:5px}
+			#content .position-control .position-control-box li:first-child + li + li span {font-weight:600; margin:0 4px}
+			/* // dashboard MAP&LIST분할 */
+			
+		/* - // content dashboard */
+		
+
+
+
+
+		/* 하단 btn */
+		.float-r {float:right}
+		.btn {position:relative; text-align:center; font-size:14px; font-weight:600; color:#fff; margin:24px 0 0;}
+		.btn.btn-left {text-align:left}
+		.btn-modify {display:inline-block; width:120px; height:35px; line-height:35px; background:#b5b5b5; margin-right:6px; cursor:pointer; text-align:center}
+		.btn-list,
+		.btn-cancel {display:inline-block; width:120px; height:35px; line-height:35px; background:#848484; cursor:pointer; text-align:center}
+		.btn-save,
+		.btn-modify-completion, 
+		.btn-complete-writing,
+		.btn-completion,
+		.btn-message-sent,
+		.btn-register,
+		.btn-group-create,
+		.btn-resend,
+		.btn-complete {display:inline-block; width:120px; height:35px; line-height:35px; background:#ec3341; margin-right:6px; cursor:pointer; text-align:center}
+		.btn-reception-modify {display:inline-block; width:120px; height:35px; line-height:35px; background:#b5b5b5; margin-right:6px; cursor:pointer; text-align:center}
+		.btn-reception-list,
+		.btn-delete {display:inline-block; width:120px; height:35px; line-height:35px; background:#848484; cursor:pointer; text-align:center}
+		.btn-delete {margin-right:6px}
+		.btn-resend {margin-left:6px}
+		.btn-excel {position:absolute; bottom:20px; right:0; width:120px; height:25px; line-height:25px; background:#848484; cursor:pointer; color:#fff; text-align:center; text-align:center}
+		/* // btn */
+		
+	
+		
+		/* // pop */
+	/* // content class */
+			.i_label{visibility:visible; position:absolute; cursor: text;}
+		/* site popup */			
+			.site-subtitle {
+				position:relative; height:40px; width:440px;border-bottom:2px solid #b9b9b9; 
+			}
+			
+			.site-subtitle h2{
+				background:none; font-size:18px; font-weight:600; color:#000001; height:40px; padding:6px 0 7px; margin-left:15px;
+			}
+			
+			.site-btn {
+				height:68px; padding-top:27px;margin:0 auto; text-align:center
+			}
