@@ -28,6 +28,7 @@
 <script type="text/javascript" src="/js/common/common.js"></script>
 <script type="text/javascript" src="/js/common/utils.js"></script>
 <script type="text/javascript" ansync src="//apis.daum.net/maps/maps3.js?apikey=72f942428a6e8168e68231f112966195&libraries=services,clusterer"></script>
+<script type="text/javascript" src="/js/test/test_modal.modal.js"></script>
 <style type="text/css">
 	.date-content {position:relative; display:inline-block; padding-left:20px }
 	.ui-datepicker-trigger img {position: absolute; left: 0; top: 10px; }
@@ -85,6 +86,7 @@
 .custom_typecontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);}    
 .custom_typecontrol .selected_btn {color:#fff;background:#425470;background:linear-gradient(#425470, #5b6d8a); font-size:12px}
 .custom_typecontrol .selected_btn:hover {color:#fff;}
+#modal {display:none;background-color:#FFFFFF;position:absolute;top:300px;left:200px;padding:10px;border:2px solid #E2E2E2;z-Index:9999}
 </style>
 </head>
 <body>
@@ -175,6 +177,7 @@
 			$("#loss").hide();
 			$("#find").hide();
 			$("#detail").hide();
+			$("#login").hide();
 			
 			$('table.tb01 tr:odd').addClass('odd');
 			$('table.tb01 tr:even').addClass('Even');
@@ -233,6 +236,7 @@
 			$("#loss").show();
 			$("#find").hide();
 			$("#detail").hide();
+			$("#login").hide();
 		}
 		
 		function fn_find_insert(){
@@ -240,6 +244,7 @@
 			$("#find").show();
 			$("#loss").hide();
 			$("#detail").hide();
+			$("#login").hide();
 		}
 		
 		function fn_find_main(){
@@ -247,6 +252,7 @@
 			$("#main").show();
 			$("#detail").hide();
 			$("#find").hide();
+			$("#login").hide();
 		}
 		
 		//map
@@ -471,6 +477,7 @@
 			$("#loss").hide();
 			$("#find").hide();
 			$("#main").hide();
+			$("#login").hide();
 			$("#detail").show();
 			
 			$("#loss_detail_title").val(jsonObject.loss_title);
@@ -541,6 +548,29 @@
 				$("#loss_detail_rfid_cd").val(jsonObject.loss_rfid_cd);
 			}
 		}
+		
+		function fn_find_login(){
+			$("#loss").hide();
+			$("#find").hide();
+			$("#main").hide();
+			$("#detail").hide();
+			$("#login").show();
+		}
+		
+		//########################################modaltest
+		
+		// 모달창 인스턴트 생성
+		var myModal = new Example.Modal({
+		    id: "modal" // 모달창 아이디 지정
+		});
+		  
+		function fn_open_modal(){
+			myModal.show(); // 모달창 보여주기
+			myModal.moveCenter();
+		}
+		function fn_confirm_button(){
+			myModal.hide(); // 모달창 감추기
+		}
 	</script>
 	<div id="header">
 		<div>
@@ -554,7 +584,9 @@
 			<!-- 로그인 상태가 아닐때 -->
 			<!-- 로그인 -->
 			<div class="login-info">
-				<a href="javascript:void(0)">로그인</a>
+				<a href="javascript:void(0)">로그인</a> &nbsp&nbsp|&nbsp&nbsp    
+				<!-- 모달 창을 여는 버튼 -->
+				<a href="javascript:void(0)" id="modal_button" onclick="fn_open_modal()">회원가입</a>
 			</div>
 			<!-- // 로그인 -->
 			<!-- //로그인 상태가 아닐때 -->
@@ -566,7 +598,7 @@
 				</li>
 				<li class="header-menu"><a href="#" onclick="fn_find_insert()">습득신고</a>
 				</li>
-				<li class="header-menu"><a href="#" >menu4</a>
+				<li class="header-menu"><a href="#" onclick="fn_find_login()">로그인</a>
 				</li>
 			</ul>
 			
@@ -827,6 +859,21 @@
 									</form>
 								</div>
 							</div>
+							<div id="login" style="height:100%; overflow-y:auto">
+								<li>
+									로그인
+								</li>
+								<div class="form-style-2">
+									<form id="dataForm" name="dataForm" method="post">
+										<label for="field1" id="detail_title">
+											<span>아이디</span><input type="text" class="input-field" id="find_detail_title" name="loss_detail_title" value="" />
+										</label>
+										<label for="field2" id="detail_date">
+											<span>비밀번호</span><input type="text" id="loss_detail_date" name="loss_detail_date"  value="" class="statistics-date lost-field">
+										</label>
+									</form>
+								</div>
+							</div>
 						</ul>
 					</div>
 				</div>
@@ -836,6 +883,13 @@
 	</div>
 	<div id="footer">
 		Copyright © <span style="font-weight: bold; color: #666;">Lee Dong Chul</span> All rights reserved.
+	</div>
+	<!-- 모달창 -->
+	<div id="modal" style="width:300px; height:500px">
+	    <h3>Test Modal</h3>
+	    <p>이 창은 모달창입니다.</p>
+	    <button id="confirm_button" onclick="fn_confirm_button()">확인</button>
+	    <button class="js_close">닫기</button>
 	</div>
 </body>
 </html>
