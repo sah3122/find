@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,7 +26,8 @@ import find.test.service.TestService;
 @Controller
 public class TestController {
 	Logger log = Logger.getLogger(this.getClass());
-
+	@Value("#{props['common.serverIp']}")
+	private String svrIp;
 	@Resource(name="testService")
 	TestService testService;
 	
@@ -41,7 +43,6 @@ public class TestController {
                 
             }
         }
-
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject("http://localhost:3000/rest/loss/list", String.class);
         JSONArray jsonArray = new JSONArray(result);

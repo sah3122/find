@@ -78,6 +78,10 @@
 	overflow: hidden;
 	width: 6px;
 }
+.main-list {
+	height : auto;
+	border-bottom : 1px solid #c3c3c3;
+}
 .radius_border{border:1px solid #919191;border-radius:5px;}     
 .custom_typecontrol {position:absolute;top:10px;right:400px;overflow:hidden;width:133px;height:30px;margin:0;padding:0;z-index:2;font-size:12px;font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
 .custom_typecontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
@@ -92,88 +96,6 @@
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			/* map */
-			var mapContainer = document.getElementById('map_div'), // 지도를 표시할 div 
-			mapOption = {
-				center : new daum.maps.LatLng(35.141576950973885, 129.0462544864037 ), // 지도의 중심좌표
-				level : 5
-			// 지도의 확대 레벨
-			};
-	
-			map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-			
-			// 주소-좌표 변환 객체를 생성합니다
-			geocoder = new daum.maps.services.Geocoder();
-			
-			marker = new daum.maps.Marker(); // 클릭한 위치를 표시할 마커입니다
-			// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
-			var zoomControl = new daum.maps.ZoomControl();
-			map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
-	
-			// 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-			daum.maps.event.addListener(map, 'zoom_changed', function() {        
-				//createCustomOverlay(jsonLossData);
-				
-			});
-			// 지도가 이동, 확대, 축소로 인해 지도영역이 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다// 지도가 이동, 확대, 축소로 인해 지도영역이 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다.
-			daum.maps.event.addListener(map, 'bounds_changed', function() {             
-			    // 지도 영역정보를 얻어옵니다 
-			    var bounds = map.getBounds();
-			    // 영역정보의 남서쪽 정보를 얻어옵니다 
-			    var swLatlng = bounds.getSouthWest();
-			    // 영역정보의 북동쪽 정보를 얻어옵니다 
-			    var neLatlng = bounds.getNorthEast();
-			    /* var message = '<p>영역좌표는 남서쪽 위도, 경도는  ' + swLatlng.toString() + '이고 <br>'; 
-			    message += '북동쪽 위도, 경도는  ' + neLatlng.toString() + '입니다 </p>'; 
-			    
-			    var resultDiv = document.getElementById('result');   
-			    resultDiv.innerHTML = message; */
-			});
-			
-			// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
-			daum.maps.event.addListener(map, 'click', function(mouseEvent) {
-			    searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
-			        if (status === daum.maps.services.Status.OK) {
-			            //var detailAddr = !!result[0].roadAddress.name ? '<div>도로명주소 : ' + result[0].roadAddress.name + '</div>' : '';
-			            var detailAddr = result[0].jibunAddress.name;
-			         	// 클릭한 위도, 경도 정보를 가져옵니다 
-			            var latlng = mouseEvent.latLng; 
-			            $("#loss_place").val(detailAddr);	
-			            $("#loss_lat").val(latlng.getLat());
-			            $("#loss_long").val(latlng.getLng());
-			            
-						// 마커를 클릭한 위치에 표시합니다 
-			            marker.setPosition(mouseEvent.latLng);
-			            marker.setMap(map);
-			        }   
-			    });
-			});
-			
-			// 마커 클러스터러를 생성합니다 
-		    clusterer = new daum.maps.MarkerClusterer({
-		        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-		        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-		        minLevel: 1 // 클러스터 할 최소 지도 레벨 
-		    });
-			//클러스터할 최소 마커 개수
-		    clusterer.setMinClusterSize(2);
-			jsonData = ${lossData};
-			lossData = JSON.stringify(jsonData);
-			jsonLossData = eval(lossData);
-			
-			createCustomOverlay(jsonLossData);
-			
-			// 마커 클러스터러에 클릭이벤트를 등록합니다 
-		    // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우 
-		    // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다 
-		    daum.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
-				//alert("a");
-		    });
-		    daum.maps.event.addListener(clusterer, 'clusterover', function( cluster ) {
-		    	console.log( cluster.getMarkers()[0].getPosition() );
-		    });
-		 
-			/* map end*/
 			$("#loss").hide();
 			$("#find").hide();
 			$("#detail").hide();
@@ -200,9 +122,84 @@
 				resizeHt();
 			});
 			$("#content .dashboard .position-control").css({"width" : "calc(100% - 360px)"});
-			resizeHt();
 			$("#loss_date").val($.datepicker.formatDate($.datepicker.ATOM, new Date()));
 			$("#find_date").val($.datepicker.formatDate($.datepicker.ATOM, new Date()));
+			
+			/* map */
+			var mapContainer = document.getElementById('map_div'), // 지도를 표시할 div 
+			mapOption = {
+				center : new daum.maps.LatLng(35.13760, 129.10090 ), // 지도의 중심좌표
+				level : 5
+			// 지도의 확대 레벨
+			};
+			map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+			// 주소-좌표 변환 객체를 생성합니다
+			geocoder = new daum.maps.services.Geocoder();
+			
+			marker = new daum.maps.Marker(); // 클릭한 위치를 표시할 마커입니다
+			// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+			var zoomControl = new daum.maps.ZoomControl();
+			map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+	
+			// 마커 클러스터러를 생성합니다 
+		    clusterer = new daum.maps.MarkerClusterer({
+		        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+		        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+		        minLevel: 1 // 클러스터 할 최소 지도 레벨 
+		    });
+			//클러스터할 최소 마커 개수
+		    clusterer.setMinClusterSize(2);
+			jsonData = ${lossData};
+			lossData = JSON.stringify(jsonData);
+			jsonLossData = eval(lossData);
+			
+			createCustomOverlay(jsonLossData);
+			
+			// 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+			daum.maps.event.addListener(map, 'zoom_changed', function() {        
+			    createCustomOverlay(jsonLossData);
+			});
+			// 지도가 드래그되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+			daum.maps.event.addListener(map, 'dragend', function() {
+				createCustomOverlay(jsonLossData);
+			});
+			
+			// 지도가 이동, 확대, 축소로 인해 지도영역이 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다// 지도가 이동, 확대, 축소로 인해 지도영역이 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다.
+			daum.maps.event.addListener(map, 'bounds_changed', function() {             
+			});
+			
+			// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
+			daum.maps.event.addListener(map, 'click', function(mouseEvent) {
+			    searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
+			        if (status === daum.maps.services.Status.OK && $("#map_click_check").val() == "true") {
+			            //var detailAddr = !!result[0].roadAddress.name ? '<div>도로명주소 : ' + result[0].roadAddress.name + '</div>' : '';
+			            var detailAddr = result[0].jibunAddress.name;
+			         	// 클릭한 위도, 경도 정보를 가져옵니다 
+			            var latlng = mouseEvent.latLng; 
+			            $("#loss_place").val(detailAddr);	
+			            $("#loss_lat").val(latlng.getLat());
+			            $("#loss_long").val(latlng.getLng());
+			            
+						// 마커를 클릭한 위치에 표시합니다 
+			            marker.setPosition(mouseEvent.latLng);
+			            marker.setMap(map);
+			        }   
+			    });
+			});
+			
+			// 마커 클러스터러에 클릭이벤트를 등록합니다 
+		    // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우 
+		    // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다 
+		    daum.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+				//alert("a");
+		    });
+		    daum.maps.event.addListener(clusterer, 'clusterover', function( cluster ) {
+		    	console.log( cluster.getMarkers()[0].getPosition() );
+		    });
+		 
+			/* map end*/
+			
+			resizeHt();
 		});
 	
 		function resizeWt() {
@@ -214,9 +211,10 @@
 			$("#content .position-control").height(getHeight()+53 + "px");
 			$("#content .position-control .position-control-box li:first-child + li").height((getHeight() - 80) + "px");
 			$("#content .pid").height(getHeight()+53 + "px");
-			$("#content .pid .pid-box li:first-child + li").height((getHeight() - 44) + "px");
+			//메인페이지 li설정위해 주석처리
+			/* $("#content .pid .pid-box li:first-child + li").height((getHeight() - 44) + "px");
 			var liHt = $("#content .pid .pid-box li:first-child + li").height();
-			$("#content .tb01-content").height((liHt - 45) + "px");
+			$("#content .tb01-content").height((liHt - 45) + "px");  */
 			map.relayout();
 		}
 	
@@ -237,6 +235,7 @@
 			$("#find").hide();
 			$("#detail").hide();
 			$("#login").hide();
+			$("#map_click_check").val("true");
 		}
 		
 		function fn_find_insert(){
@@ -245,6 +244,7 @@
 			$("#loss").hide();
 			$("#detail").hide();
 			$("#login").hide();
+			$("#map_click_check").val("true");
 		}
 		
 		function fn_find_main(){
@@ -253,49 +253,90 @@
 			$("#detail").hide();
 			$("#find").hide();
 			$("#login").hide();
+			$("#map_click_check").val("false");
 		}
 		
 		//map
+		function displayInfowindow(marker, infowindow) {
+		    infowindow.open(map, marker);
+		}
+		
 		function createCustomOverlay(jsonLossData){
 			var markerPositionJson = new Object();
 			var markerPositionArray = new Array();
-			clusterer.clear();
+		    clusterer.clear();
+		    $("#main div").each(function(obj) {
+		    	this.remove();
+		    });
+
+		    var list_count = 0;
 			//여러개의 커스텀 오버레이 생성
 			if(jsonLossData != null){
 				for(var i = 0; i < jsonLossData.length; i++){
-					var position = new daum.maps.LatLng(jsonLossData[i].loss_lat, jsonLossData[i].loss_long);
-					var marker = new daum.maps.Marker({
-						title : jsonLossData[i].loss_title,
-					    position : position
-					});
-					// 마커에 표시할 인포윈도우를 생성합니다 
-					if(jsonLossData[i].loss_img_std != null && jsonLossData[i].loss_img_std != ""){
-					    var infowindow = new daum.maps.InfoWindow({
-					        content: "<div style='text-align:center'>"+jsonLossData[i].loss_title+"</div>"+"<img src='/images/find/"+jsonLossData[i].loss_img_std+"' width='148px'/>" // 인포윈도우에 표시할 내용
-					    });
-					} else {
-						var infowindow = new daum.maps.InfoWindow({
-					        content: "<div style='text-align:center'>"+jsonLossData[i].loss_title+"</div>" // 인포윈도우에 표시할 내용
-					    });
+					//현재 지도에 표시되는 데이터만 마커 및 리스트 생성
+					if(fn_Latlng_check(jsonLossData[i].loss_lat, jsonLossData[i].loss_long)){
+						var position = new daum.maps.LatLng(jsonLossData[i].loss_lat, jsonLossData[i].loss_long);
+						var marker = new daum.maps.Marker({
+							title : jsonLossData[i].loss_title,
+						    position : position
+						});
+						// 마커에 표시할 인포윈도우를 생성합니다 
+						var infowindow;
+						if(jsonLossData[i].loss_img_std != null && jsonLossData[i].loss_img_std != ""){
+						    infowindow = new daum.maps.InfoWindow({
+						        content: "<div style='text-align:center'>"+jsonLossData[i].loss_title+"</div>"+"<img src='/images/find/"+jsonLossData[i].loss_img_std+"' width='148px'/>" // 인포윈도우에 표시할 내용
+						    });
+						} else {
+							infowindow = new daum.maps.InfoWindow({
+						        content: "<div style='text-align:center'>"+jsonLossData[i].loss_title+"</div>" // 인포윈도우에 표시할 내용
+						    });
+						}
+						// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+					    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+					    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+						daum.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+					    daum.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+					    daum.maps.event.addListener(marker, 'click', makeClickListener(map, marker));
+						clusterer.addMarker(marker);
+						
+						//현재 지도에서 표시되는 데이터를 리스트로 만드는 작업
+						var data = JSON.stringify(jsonLossData[i]);
+						var html = "";
+						html += "<div id='main_list"+list_count+"' name='main_list"+list_count+"' class='main-list' style='height:100px' onclick='fn_detail("+data+",001)'>";
+						
+						if(jsonLossData[i].loss_img_std != null && jsonLossData[i].loss_img_std != ""){
+							html += "	<div style='float:left'>";
+							html += "	<img src='/images/find/"+jsonLossData[i].loss_img_std+"' width='175px'/>";
+							html += "	</div>";
+						}
+						html += "		<div style='float:left'>";
+						html += "			<span style='display:block'>"+jsonLossData[i].loss_title+"</span>";
+						html += "			<span style='display:block'>"+jsonLossData[i].loss_place+"</span>";
+						html += "			<span style='display:block'>"+jsonLossData[i].loss_date+"</span>";
+						html += "		</div>";
+						
+						html += "</div>";
+
+						$("#main").append(html);
+						
+						(function(marker, infowindow) {
+							$("#main_list"+list_count).mouseover(function () {
+								if(marker.getVisible()){
+									displayInfowindow(marker, infowindow);
+								}
+				            });
+
+							$("#main_list"+list_count).mouseout(function (){
+				                infowindow.close();
+				            });
+				        })(marker, infowindow);
+						
+						list_count += 1;
 					}
-					// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-				    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
-				    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-					daum.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-				    daum.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-				    daum.maps.event.addListener(marker, 'click', makeClickListener(map, marker));
-					clusterer.addMarker(marker);
-					/*
-					//클러스터 마커를 동시에 만들때 위도, 경도를 넣기위한 json객체 생성
-					var markerPosition = new Object();
-					markerPosition.lat = jsonLossData[i].loss_lat;
-					markerPosition.lng = jsonLossData[i].loss_long;
-					markerPositionArray.push(markerPosition);
-					// 커스텀 오버레이를 지도에 표시합니다
-					//customOverlay.setMap(map);
-					*/
 				}
 			}
+			
+			
 			
 			function makeOverListener(map, marker,infowindow) {
 			    return function() {
@@ -322,7 +363,7 @@
 						success : function(data) {
 							// r = 리턴받는 json객체
 							if (data.result == 'success') {
-								fn_detail(data.lossData);
+								fn_detail(data.lossData,002);
 								console.log(data.lossData);
 							} else {
 								alert("알수없는 오류가 발생하였습니다.");
@@ -458,6 +499,27 @@
 				});
 			}
 		}
+		//마커의 위치를 체크하여 현재 보이는 화면안에 정보만 가져오기
+		function fn_Latlng_check(lat, lng){
+			var result = false;
+			var bounds = map.getBounds();
+			// 영역정보의 남서쪽 정보를 얻어옵니다 
+		    var swLatlng = bounds.getSouthWest();
+		    var swLat = swLatlng.getLat();
+		    var swLng = swLatlng.getLng();
+		    // 영역정보의 북동쪽 정보를 얻어옵니다 
+		    var neLatlng = bounds.getNorthEast();
+		    var neLat = neLatlng.getLat();
+		    var neLng = neLatlng.getLng();
+		    //console.log(map.getCenter())
+		    //console.log(lat + " " + lng);
+		   	//console.log(swLatlng +" "+ neLatlng);
+		    //console.log((lng > swLng) && (lng < neLng));
+		    if((lat > swLat) && (lat < neLat) && (lng > swLng) && (lng < neLng)){
+		    	result = true;
+		    }
+		    return result;
+		}
 		
 		function fn_insert_check(){
 			if($("#loss_title").val() == "" ||  $("#loss_feature").val() == ""){
@@ -471,14 +533,20 @@
 			return true;
 		}
 		
-		function fn_detail(data){
-			var jsonObject = JSON.parse(data);
-			
+		function fn_detail(data, gubun){
+			//console.log("data : "+ data);
+			if(gubun == 001){
+				var jsonObject = eval(data);
+			} else {
+				var jsonObject = JSON.parse(data);
+			}
+			//console.log(jsonObject.loss_lat + " " + jsonObject.loss_long);
 			$("#loss").hide();
 			$("#find").hide();
 			$("#main").hide();
 			$("#login").hide();
 			$("#detail").show();
+			$("#map_click_check").val("false");
 			
 			$("#loss_detail_title").val(jsonObject.loss_title);
 			$("#loss_detail_date").val(jsonObject.loss_date);
@@ -548,15 +616,6 @@
 				$("#loss_detail_rfid_cd").val(jsonObject.loss_rfid_cd);
 			}
 		}
-		
-		function fn_find_login(){
-			$("#loss").hide();
-			$("#find").hide();
-			$("#main").hide();
-			$("#detail").hide();
-			$("#login").show();
-		}
-		
 		//########################################modaltest
 		
 		// 모달창 인스턴트 생성
@@ -598,7 +657,7 @@
 				</li>
 				<li class="header-menu"><a href="#" onclick="fn_find_insert()">습득신고</a>
 				</li>
-				<li class="header-menu"><a href="#" onclick="fn_find_login()">로그인</a>
+				<li class="header-menu"><a href="#" onclick="">채팅</a>
 				</li>
 			</ul>
 			
@@ -612,6 +671,7 @@
 				<div class="dashboard-content">
 					<div class="position-control">
 						<ul class="position-control-box" style="height: 100%">
+							<input type="hidden" id="map_click_check" name="map_click_check" value="false"/>
 							<div id="map_div" style="width: 100%; height: 100%"></div>
 							<div class="custom_typecontrol radius_border" >
 						        <span id="btnLoss" class="selected_btn" onclick="setMapType('loss')" style="margin:0px">분실</span>
@@ -621,37 +681,9 @@
 					</div>
 					<div class="pid">
 						<ul class="pid-box" style="height:100%">
-							<div id="main">
+							<div id="main" style="height:100%; overflow-y:auto">
 								<li>
 									종 기간
-								</li>
-								<li>
-									<table class="tb01-title dash">
-										<colgroup>
-											<col style="width: *">
-											<col style="width: 100px">
-											<col style="width: 75px">
-											<col style="width: 75px">
-										</colgroup>
-										<tr>
-											<th>test1</th>
-											<th>test2</th>
-											<th>test3</th>
-											<th>test4</th>
-										</tr>
-									</table>
-									<div class="tb01-content">
-										<table class="tb01 dash">
-											<colgroup>
-												<col style="width: *">
-												<col style="width: 100px">
-												<col style="width: 75px">
-												<col style="width: 75px">
-											</colgroup>
-											<tbody id="pttinfos">
-											</tbody>
-										</table>
-									</div>
 								</li>
 							</div>
 							<div id="loss" style="height:100%; overflow-y:auto">
@@ -835,22 +867,22 @@
 											<span>분실장소</span><input type="text" class="input-field" id="loss_detail_place" name="loss_detail_place" value="" readonly="readonly"/>
 										</label>
 										<label for="field2" id="detail_place_detail">
-											<span></span><input type="text" class="input-field" id="loss_detail_place_detail" name="loss_detail_place_detail" value="" />
+											<span></span><input type="text" class="input-field" id="loss_detail_place_detail" readonly="readonly" name="loss_detail_place_detail" value="" />
 										</label>
 										<label for="field2" id="detail_color">
-											<span>색상</span><input type="text" class="input-field" id="loss_detail_color" name="loss_detail_color" value="" />
+											<span>색상</span><input type="text" class="input-field" readonly="readonly" id="loss_detail_color" name="loss_detail_color" value="" />
 										</label>
 										<label for="field5" id="detail_feature">
-											<span>특징</span><textarea id="loss_detail_feature" name="loss_detail_feature" class="textarea-field"></textarea>
+											<span>특징</span><textarea id="loss_detail_feature" readonly="readonly" name="loss_detail_feature" class="textarea-field"></textarea>
 										</label>
 										<label for="field2" id="detail_process">
-											<span>신고경위</span><input type="text" class="input-field" id="lossdetail_process" name="lossdetail_process" value="" />
+											<span>신고경위</span><input type="text" class="input-field" readonly="readonly" id="lossdetail_process" name="lossdetail_process" value="" />
 										</label>
 										<label for="field2" id="detail_regis_num">
-											<span>등록번호</span><input type="text" class="input-field" id="loss_detail_regis_num" name="loss_detail_regis_num" value="" />
+											<span>등록번호</span><input type="text" class="input-field" readonly="readonly" id="loss_detail_regis_num" name="loss_detail_regis_num" value="" />
 										</label>
 										<label for="field2" id="detail_rfid_cd">
-											<span>RFID_CD</span><input type="text" class="input-field" id="loss_detail_rfid_cd" name="loss_detail_rfid_cd" value="" />
+											<span>RFID_CD</span><input type="text" class="input-field" readonly="readonly" id="loss_detail_rfid_cd" name="loss_detail_rfid_cd" value="" />
 										</label>
 										<label for="field2" id="detail_img">
 											<span>사진</span>

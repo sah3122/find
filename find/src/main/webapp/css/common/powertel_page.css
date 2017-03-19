@@ -103,7 +103,7 @@
 			#content .dashboard .dashboard-content {position:relative; }
 			#content .dashboard .dashboard-content:after { content:""; clear:both; display:block; *zoom:1;}
 			#content .dashboard .position-control,
-			#content .dashboard .pid {float:left; height:600px; border-top:1px ; border-bottom:1px solid #c3c3c3; background:#fdfdfd}
+			#content .dashboard .pid {float:left; height:600px; border-top:1px ; border-bottom:1px solid #c3c3c3; border-left:1px solid #c3c3c3; background:#fdfdfd}
 			#content .dashboard .pid {width:360px;}
 			#content .position-control .position-control-box li:first-child,
 			#content .pid .pid-box li:first-child {position:relative; height:44px; line-height:43px; text-align:center; font-size:17px; font-weight:600; color:#a3a3a3; border-bottom:1px solid #c3c3c3;background-color: #fff}
