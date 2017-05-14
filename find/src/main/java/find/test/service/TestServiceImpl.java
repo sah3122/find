@@ -39,8 +39,8 @@ public class TestServiceImpl implements TestService {
 	    }
 	    if(multipartFile.isEmpty() == false){
 		    List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(map, request);
-		    map.put("loss_img_org", list.get(0).get("LOSS_IMG_ORG"));
-		    map.put("loss_img_std", list.get(0).get("LOSS_IMG_STD"));
+		    map.put("img_org", list.get(0).get("IMG_ORG"));
+		    map.put("img_std", list.get(0).get("IMG_STD"));
 		    //map.put("fileFileSize", list.get(0).get("FILE_SIZE"));
 	    }
 		

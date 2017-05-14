@@ -238,13 +238,9 @@
 			            var detailAddr = result[0].jibunAddress.name;
 			         	// 클릭한 위도, 경도 정보를 가져옵니다 
 			            var latlng = mouseEvent.latLng; 
-			            $("#loss_place").val(detailAddr);	
-			            $("#loss_lat").val(latlng.getLat());
-			            $("#loss_long").val(latlng.getLng());
-			            
-			            $("#find_place").val(detailAddr);	
-			            $("#find_lat").val(latlng.getLat());
-			            $("#find_long").val(latlng.getLng());
+			            $("#place").val(detailAddr);	
+			            $("#lat").val(latlng.getLat());
+			            $("#lng").val(latlng.getLng());
 			            
 						// 마커를 클릭한 위치에 표시합니다 
 			            marker.setPosition(mouseEvent.latLng);
@@ -303,17 +299,26 @@
 			$("#chat").hide();
 			$("#chatList").hide();
 			$("#map_click_check").val("true");
+			
+			$("#loss_li").text("분실신고");
+			$("#find_type").val("loss");
+			fn_ajax_select('loss');
 		}
 		
 		function fn_find_insert(){
 			$("#main").hide();
-			$("#find").show();
-			$("#loss").hide();
+			$("#find").hide();
+			$("#loss").show();
 			$("#detail").hide();
 			$("#chat").hide();
 			$("#chatList").hide();
 			$("#map_click_check").val("true");
+			$("#find_type").val("find");
+			
 			$(".chat-div").remove();
+			
+			$("#loss_li").text("습득신고");
+			fn_ajax_select('loss');
 		}
 		
 		function fn_find_main(){
@@ -399,6 +404,8 @@
 			$("#chat").hide();
 			$("#chatList").show();
 			
+			$("#chatList_list").html("");
+			
 			//채팅 목록 가져오기
 			var param = "";
 			param = {"user_id":userInfo.uid};
@@ -433,7 +440,15 @@
 							$("#chatList_list").append(html);
 						}
 					} else {
-						alert("알수없는 오류가 발생하였습니다.");
+						var html = ""
+						html += "<div style='height:50px; display:flex; flex-direction: row; border-bottom : 1px solid #c3c3c3' onclick=fn_open_chat('"+jsonData[i].user1_id+"','"+jsonData[i].user1_name+"')>";
+						html += "	<div style='display:flex; flex-grow:1; align-items: center;'>	";
+						html += "	</div>";
+						html += "	<div style='display:flex; flex-grow:4; text-align:center; align-items: center;'>";
+						html += "		<span>채팅목록이 없습니다.</span>";
+						html += "	</div>";
+						html += "</div>";
+						$("#chatList_list").append(html);
 					}
 				}
 			});
@@ -468,7 +483,7 @@
 					text: text,
 					sendDate : nowTime
 				}); 
-				 
+				 $("#chat_message").val(""); 
 			} else {
 				alert("내용을 입력해주세요.");
 			}
@@ -492,21 +507,22 @@
 			if(jsonLossData != null){
 				for(var i = 0; i < jsonLossData.length; i++){
 					//현재 지도에 표시되는 데이터만 마커 및 리스트 생성
-					if(fn_Latlng_check(jsonLossData[i].loss_lat, jsonLossData[i].loss_long)){
-						var position = new daum.maps.LatLng(jsonLossData[i].loss_lat, jsonLossData[i].loss_long);
+					if(fn_Latlng_check(jsonLossData[i].lat, jsonLossData[i].lng)){
+						var position = new daum.maps.LatLng(jsonLossData[i].lat, jsonLossData[i].lng);
 						var marker = new daum.maps.Marker({
-							title : jsonLossData[i].loss_title,
+							/* title : jsonLossData[i].title, */
+							title : jsonLossData[i]._id,
 						    position : position
 						});
 						// 마커에 표시할 인포윈도우를 생성합니다 
 						var infowindow;
-						if(jsonLossData[i].loss_img_std != null && jsonLossData[i].loss_img_std != ""){
+						if(jsonLossData[i].img_std != null && jsonLossData[i].img_std != ""){
 						    infowindow = new daum.maps.InfoWindow({
-						        content: "<div style='text-align:center'>"+jsonLossData[i].loss_title+"</div>"+"<img src='/images/find/"+jsonLossData[i].loss_img_std+"' width='148px'/>" // 인포윈도우에 표시할 내용
+						        content: "<div style='text-align:center'>"+jsonLossData[i].title+"</div>"+"<img src='/images/find/"+jsonLossData[i].img_std+"' width='148px'/>" // 인포윈도우에 표시할 내용
 						    });
 						} else {
 							infowindow = new daum.maps.InfoWindow({
-						        content: "<div style='text-align:center'>"+jsonLossData[i].loss_title+"</div>" // 인포윈도우에 표시할 내용
+						        content: "<div style='text-align:center'>"+jsonLossData[i].title+"</div>" // 인포윈도우에 표시할 내용
 						    });
 						}
 						// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
@@ -521,15 +537,15 @@
 						var data = JSON.stringify(jsonLossData[i]);
 						var html = "";
 						html += "<div id='main_list"+list_count+"' name='main_list"+list_count+"' class='main-list' style='height:100px' onclick='fn_detail("+data+",001)'>";
-						if(jsonLossData[i].loss_img_std != null && jsonLossData[i].loss_img_std != ""){
+						if(jsonLossData[i].img_std != null && jsonLossData[i].img_std != ""){
 							html += "	<div style='float:left'>";
-							html += "	<img src='/images/find/"+jsonLossData[i].loss_img_std+"' width='175px'/>";
+							html += "	<img src='/images/find/"+jsonLossData[i].img_std+"' width='175px' height:'100px' style='width:175px; height:100px'/>";
 							html += "	</div>";
 						}
 						html += "		<div style='float:left'>";
-						html += "			<span style='display:block'>"+jsonLossData[i].loss_title+"</span>";
-						html += "			<span style='display:block'>"+jsonLossData[i].loss_place+"</span>";
-						html += "			<span style='display:block'>"+jsonLossData[i].loss_date+"</span>";
+						html += "			<span style='display:block'>"+jsonLossData[i].title+"</span>";
+						html += "			<span style='display:block'>"+jsonLossData[i].place+"</span>";
+						html += "			<span style='display:block'>"+jsonLossData[i].date+"</span>";
 						html += "		</div>";
 						
 						html += "</div>";
@@ -569,7 +585,7 @@
 			
 			function makeClickListener(map, marker) {
 			    return function() {
-			    	var param = "loss_title="+marker.getTitle();
+			    	var param = {"id":marker.getTitle(),"map_type":$("#map_type").val()};
 			    	$.ajax({
 						type : "POST",
 						url : "/test/testDetail.do",
@@ -612,57 +628,45 @@
 		    if (maptype === 'loss') {
 		    	btnLoss.className = 'selected_btn';
 		        btnFind.className = 'btn';
-		        $.ajax({
-					type : "POST",
-					url : "/test/testLossList.do",
-					dataType : "json", // 받는 데이터 타입
-					success : function(data) {
-						// r = 리턴받는 json객체
-						if (data.result == 'success') {
-							fn_search_init();
-							jsonLossData = eval(data.lossData);
-							createCustomOverlay(jsonLossData);
-						} else {
-							alert("알수없는 오류가 발생하였습니다.");
-						}
-					}
-				});
+		        $("#main_li").text("분실 목록");
 		    } else {
-		    	btnFind.className = 'selected_btn';
 		    	btnLoss.className = 'btn';
-		    	$.ajax({
-					type : "POST",
-					url : "/test/testFindList.do",
-					dataType : "json", // 받는 데이터 타입
-					success : function(data) {
-						// r = 리턴받는 json객체
-						if (data.result == 'success') {
-							fn_search_init();
-							jsonFindData = eval(data.FindData);
-							createCustomOverlay(jsonFindData);
-						} else {
-							alert("알수없는 오류가 발생하였습니다.");
-						}
-					}
-				});
+		        btnFind.className = 'selected_btn';
+		        $("#main_li").text("습득 목록");
 		    }
+	        
+	        $("#map_type").val(maptype);
+	        
+	        var param = {"map_type":$("#map_type").val()};
+	        $.ajax({
+				type : "POST",
+				url : "/test/testLossList.do",
+				data : param,
+				dataType : "json", // 받는 데이터 타입
+				success : function(data) {
+					// r = 리턴받는 json객체
+					if (data.result == 'success') {
+						fn_search_init();
+						jsonLossData = eval(data.lossData);
+						createCustomOverlay(jsonLossData);
+					} else {
+						alert("알수없는 오류가 발생하였습니다.");
+					}
+				}
+			});
 		}
 		
 		function fn_file(obj, index) {
 			if (obj.files && obj.files[0]) {
 				var file = obj.files[0];
 				var fileName = "";
-				if(index == 'loss'){
-					fileName = $("#loss_img_file").val();
-				} else {
-					fileName = $("#find_img_file").val();
-				}
+				fileName = $("#img_file").val();
+				
 				fileName = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
 
 				if(fileName != "jpg" && fileName != "png" &&  fileName != "gif" &&  fileName != "bmp"){
 					alert("이미지 파일은 (jpg, png, gif, bmp) 형식만 등록 가능합니다.");
-					$("#loss_img_file").val("");
-					$("#find_img_file").val("");
+					$("#img_file").val("");
 					return;
 				}
 
@@ -670,17 +674,13 @@
 				reader.onload = function(event) {
 					var img = new Image();
 					img.src = event.target.result;
-
+					
+					img.width = 300;
 					if (img.width > 300) { 
 						img.width = 300;
 					}
-					if(index == 'loss'){
-						$("#loss_preimg").text('');
-						$("#loss_preimg").append(img);
-					} else {
-						$("#find_preimg").text('');
-						$("#find_preimg").append(img);
-					}
+					$("#preimg").text('');
+					$("#preimg").append(img);
 				};
 				reader.readAsDataURL(file);
 
@@ -690,9 +690,9 @@
 		
 		function fn_insert() {
 			if(fn_insert_check()){
-				$("#loss_insert_date").val($.datepicker.formatDate($.datepicker.ATOM, new Date()));
-				$("#loss_user_name").val(userInfo.displayName);
-				$("#loss_user_id").val(userInfo.uid);
+				$("#insert_date").val($.datepicker.formatDate($.datepicker.ATOM, new Date()));
+				$("#user_name").val(userInfo.displayName);
+				$("#user_id").val(userInfo.uid);
 				var form = $("#dataForm")[0];
 		        var formData = new FormData(form);
 				$.ajax({
@@ -738,11 +738,11 @@
 		}
 		
 		function fn_insert_check(){
-			if($("#loss_title").val() == "" ||  $("#loss_feature").val() == ""){
+			if($("#title").val() == "" ||  $("#feature").val() == ""){
 				alert("필수정보를 입력해주세요.");
 				return false;
 			}
-			if($("#loss_place").val() == ""){
+			if($("#place").val() == ""){
 				alert("분실장소를 지도에서 선택해주세요.");
 				return false;
 			}
@@ -757,8 +757,8 @@
 				var jsonObject = JSON.parse(data);
 			}
 			//console.log(jsonObject.loss_lat + " " + jsonObject.loss_long);
-			$("#chat_userName").val(jsonObject.loss_user_name);
-			$("#chat_userId").val(jsonObject.loss_user_id);
+			$("#chat_userName").val(jsonObject.user_name);
+			$("#chat_userId").val(jsonObject.user_id);
 			
 			$("#chat").hide();
 			$("#loss").hide();
@@ -769,91 +769,90 @@
 			$("#detail").show();
 			$("#map_click_check").val("false");
 			
-			$("#loss_detail_title").val(jsonObject.loss_title);
-			$("#loss_detail_date").val(jsonObject.loss_date);
-			$("#loss_detail_place").val(jsonObject.loss_place);
-			$("#loss_detail_feature").val(jsonObject.loss_feature);
+			$("#detail_title").val(jsonObject.title);
+			$("#detail_date").val(jsonObject.date);
+			$("#detail_place").val(jsonObject.place);
+			$("#detail_feature").val(jsonObject.feature);
 			
-			if(typeof jsonObject.loss_img_std === "undefined" || jsonObject.loss_img_std == ""){
-				$("#detail_img").hide();
+			if(typeof jsonObject.img_std === "undefined" || jsonObject.img_std == ""){
+				$("#detail_img_label").hide();
 			} else {
-				$("#detail_img").show();
-				$("#loss_detail_img").attr("src","/images/find/"+jsonObject.loss_img_std);
+				$("#detail_img_label").show();
+				$("#detail_img").attr("src","/images/find/"+jsonObject.img_std);
 			}
-			if(jsonObject.loss_kind == ""){
-				$("#detail_kind").hide();
+			if(jsonObject.kind == ""){
+				$("#detail_kind_label").hide();
 			} else {
-				$("#detail_kind").show();
-				$("#loss_detail_kind").val(jsonObject.loss_kind);
-				$("#loss_detail_kind").attr("disabled","disabled");
+				$("#detail_kind_label").show();
+				$("#detail_kind").val(jsonObject.kind);
+				$("#detail_kind").attr("disabled","disabled");
 			}
-			if(jsonObject.loss_kind_detail == ""){
-				$("#detail_kind").hide();
+			if(jsonObject.kind_detail == ""){
+				$("#detail_kind_label").hide();
 			} else {
-			    if(jsonObject.loss_kind == "dog"){
+			    if(jsonObject.kind == "dog"){
 			    	dogData = ${dogData};
 			    	for(var i = 0; i < dogData.length; i++){
-				    	if(dogData[i].dog_kind_num == jsonObject.loss_kind_detail){
-				    		$("#loss_detail_kind_detail").val(dogData[i].dog_kind);
+				    	if(dogData[i].dog_kind_num == jsonObject.kind_detail){
+				    		$("#detail_kind_detail").val(dogData[i].dog_kind);
 				    	}
 				    }
-			    } else if (jsonObject.loss_kind == "cat"){
+			    } else if (jsonObject.kind == "cat"){
 			    	catData = ${catData};
 			    	for(var i = 0; i < catData.length; i++){
-				    	if(catData[i].cat_kind_num == jsonObject.loss_kind_detail){
-				    		$("#loss_detail_kind_detail").val(catData[i].cat_kind);
+				    	if(catData[i].cat_kind_num == jsonObject.kind_detail){
+				    		$("#detail_kind_detail").val(catData[i].cat_kind);
 				    	}
 				    }
 			    } else {
-			    	$("#loss_detail_kind_detail").val(jsonObject.loss_kind_detail);
+			    	$("#detail_kind_detail").val(jsonObject.kind_detail);
 			    }
-				$("#detail_kind").show();
+				$("#detail_kind_label").show();
 			}
-			if(jsonObject.loss_sex == ""){
-				$("#detail_sex").hide();
+			if(jsonObject.sex == ""){
+				$("#detail_sex_label").hide();
 			} else {
-				$("#detail_sex").show();
-				$("#loss_detail_sex").val(jsonObject.loss_sex);
-				$("#loss_detail_sex").attr("disabled","disabled");
+				$("#detail_sex_label").show();
+				$("#detail_sex").val(jsonObject.sex);
+				$("#detail_sex").attr("disabled","disabled");
 			}
-			if(jsonObject.loss_age == ""){
-				$("#detail_age").hide();
+			if(jsonObject.age == ""){
+				$("#detail_age_label").hide();
 			} else {
-				$("#detail_age").show();
-				$("#loss_detail_age").val(jsonObject.loss_age);
+				$("#detail_age_label").show();
+				$("#detail_age").val(jsonObject.age);
 			}
-			if(jsonObject.loss_place_detail == ""){
-				$("#detail_place_detail").hide();
+			if(jsonObject.place_detail == ""){
+				$("#detail_place_detail_label").hide();
 			} else {
-				$("#detail_place_detail").show();
-				$("#loss_detail_place_detail").val(jsonObject.loss_place_detail);
+				$("#detail_place_detail_label").show();
+				$("#detail_place_detail").val(jsonObject.place_detail);
 			}
-			if(jsonObject.loss_color == ""){
-				$("#detail_color").hide();
+			if(jsonObject.color == ""){
+				$("#detail_color_label").hide();
 			} else {
-				$("#detail_color").show();
-				$("#loss_detail_color").val(jsonObject.loss_color);
+				$("#detail_color_label").show();
+				$("#detail_color").val(jsonObject.color);
 			}
-			if(jsonObject.loss_process == ""){
-				$("#detail_process").hide();
+			if(jsonObject.process == ""){
+				$("#detail_process_label").hide();
 			} else {
-				$("#detail_process").show();
-				$("#loss_detail_process").val(jsonObject.loss_process);
+				$("#detail_process_label").show();
+				$("#detail_process").val(jsonObject.process);
 			}
-			if(jsonObject.loss_regis_num == ""){
-				$("#detail_regis_num").hide();
+			if(jsonObject.regis_num == ""){
+				$("#detail_regis_num_label").hide();
 			} else {
-				$("#detail_regis_num").show();
-				$("#loss_detail_regis_num").val(jsonObject.loss_regis_num);
+				$("#detail_regis_num_label").show();
+				$("#detail_regis_num").val(jsonObject.regis_num);
 			}
-			if(jsonObject.loss_rfid_cd == ""){
-				$("#detail_rfid_cd").hide();
+			if(jsonObject.rfid_cd == ""){
+				$("#detail_rfid_cd_label").hide();
 			} else {
-				$("#detail_rfid_cd").show();
-				$("#loss_detail_rfid_cd").val(jsonObject.loss_rfid_cd);
+				$("#detail_rfid_cd_label").show();
+				$("#detail_rfid_cd").val(jsonObject.rfid_cd);
 			}
 		}
-		//########################################modaltest
 		
 		function fn_open_login(){
 			auth.signInWithPopup(authProvider);
@@ -898,8 +897,8 @@
 				param = {"kind":$("#kind").val(),"sex":$("#sex").val()};
 				html = "<option value='all'>전체</option>";
 			} else if (gubun == "loss") {
-				kind = $("#loss_kind").val();
-				param = {"kind":$("#loss_kind").val()};
+				kind = $("#kind_data").val();
+				param = {"kind":$("#kind_data").val()};
 			} else {
 				
 			}
@@ -923,9 +922,19 @@
 								}
 							}
 							if(gubun == "main"){
-								$("#kind_detail").html(html);
+								if(kind != "etc"){
+									$("#kind_detail").html(html);	
+								} else {
+									$("#kind_detail").html("<option value=''>전체</option>");
+								}
 							} else if(gubun == "loss"){
-								$("#loss_kind_detail").html(html);								
+								if(kind != "etc"){
+									$("#kind_detail_data").html(html);	
+								} else {
+									$("#kind_detail_data").html("");
+								}
+								
+																
 							} else {
 								
 							}
@@ -939,7 +948,7 @@
 				if(gubun == "main"){
 					$("#kind_detail").html(html);
 				} else if(gubun == "loss"){
-					$("#loss_kind_detail").html(html);								
+					$("#kind_detail_data").html(html);								
 				} else {
 					
 				}
@@ -948,7 +957,7 @@
 		
 		function fn_search_select(){
 			var param = "";
-			param = {"kind":$("#kind").val(),"sex":$("#sex").val(),"kind_detail":$("#kind_detail").val()};
+			param = {"kind":$("#kind").val(),"sex":$("#sex").val(),"kind_detail":$("#kind_detail").val(),"map_type":$("#map_type").val()};
 			$.ajax({
 				type : "POST",
 				url : "/test/testSearchAjax.do",
@@ -1015,6 +1024,7 @@
 					<div class="position-control">
 						<ul class="position-control-box" style="height: 100%">
 							<input type="hidden" id="map_click_check" name="map_click_check" value="false"/>
+							<input type="hidden" id="map_type" name="map_type" value="loss"/>
 							<div id="map_div" style="width: 100%; height: 100%"></div>
 							<div class="custom_typecontrol radius_border" >
 						        <span id="btnLoss" class="selected_btn" onclick="setMapType('loss')" style="margin:0px">분실</span>
@@ -1025,7 +1035,7 @@
 					<div class="pid">
 						<ul class="pid-box" style="height:100%">
 							<div id="main" style="height:100%; overflow-y:auto">
-								<li>
+								<li id="main_li">
 									분실 목록
 								</li>
 								<li style="overflow: auto; display: flex; border-bottom: 1px solid #c3c3c3; height:75px; padding-top:8px" class="form-style-2"> 
@@ -1058,150 +1068,78 @@
 								</li>
 							</div>
 							<div id="loss" style="height:100%; overflow-y:auto">
-								<li>
+								<li id="loss_li">
 									분실신고
 								</li>
 								<div class="form-style-2">
 									<form id="dataForm" name="dataForm" enctype="multipart/form-data" method="post">
-										<input type="hidden" id="loss_lat" name="loss_lat" value=""/>
-										<input type="hidden" id="loss_long" name="loss_long" value=""/>
-										<input type="hidden" id="loss_user_id" name="loss_user_id" value=""/>
-										<input type="hidden" id="loss_insert_date" name="loss_insert_date" value=""/>
-										<input type="hidden" id="loss_user_name" name="loss_user_name" value=""/>
+										<input type="hidden" id="lat" name="lat" value=""/>
+										<input type="hidden" id="lng" name="lng" value=""/>
+										<input type="hidden" id="user_id" name="user_id" value=""/>
+										<input type="hidden" id="insert_date" name="insert_date" value=""/>
+										<input type="hidden" id="user_name" name="user_name" value=""/>
+										<input type="hidden" id="find_type" name="find_type" value="loss"/>
 										<label for="field1">
-											<span>제목 <span class="required">*</span></span><input type="text" class="input-field" id="loss_title" name="loss_title" value="" />
+											<span>제목 <span class="required">*</span></span><input type="text" class="input-field" id="title" name="title" value="" />
 										</label>
 										<label for="field2">
-											<span>분실날짜</span>
+											<span>날짜</span>
 											<div class="date-content">
-												<input type="text" id="loss_date" name="loss_date" readonly="readonly" value="" class="loss-date statistics-date lost-field">
+												<input type="text" id="date" name="date" readonly="readonly" value="" class="loss-date statistics-date lost-field">
 											</div>
 										</label>
 										<label for="field2">
 											<span>성별</span>
-											<select id="loss_sex" name="loss_sex" class="select-field">
+											<select id="sex_data" name="sex_data" class="select-field">
 												<option value="male">수컷</option>
 												<option value="female">암컷</option>
 											</select>
 										</label>
 										<label for="field2">
-											<span>나이</span><input type="text" class="input-field" id="loss_age" name="loss_age" value="" />
+											<span>나이</span><input type="text" class="input-field" id="age" name="age" value="" />
 										</label>
 										<label for="field4">
 											<span>품종</span>
-											<select id="loss_kind" name="loss_kind" onchange="fn_ajax_select('loss')" class="select-field">
+											<select id="kind_data" name="kind_data" onchange="fn_ajax_select('loss')" class="select-field">
 												<option value="dog">개</option>
 												<option value="cat">고양이</option>
 												<option value="etc">기타</option>
 											</select>
-											<select id="loss_kind_detail" name="loss_kind_detail" type="text" class="kind-field" value="" >
+											<select id="kind_detail_data" name="kind_detail_data" type="text" class="kind-field" value="" >
 												
 											</select>
 										</label>
 										<label for="field2">
-											<span>분실장소 <span class="required">*</span></span><input type="text" class="input-field" id="loss_place" name="loss_place" value="" readonly="readonly"/>
+											<span>장소 <span class="required">*</span></span><input type="text" class="input-field" id="place" name="place" value="" readonly="readonly"/>
 										</label>
 										<label for="field2">
-											<span></span><input type="text" class="input-field" id="loss_place_detail" name="loss_place_detail" value="" />
+											<span></span><input type="text" class="input-field" id="place_detail" name="place_detail" value="" />
 										</label>
 										<label for="field2">
-											<span>색상</span><input type="text" class="input-field" id="loss_color" name="loss_color" value="" />
+											<span>색상</span><input type="text" class="input-field" id="color" name="color" value="" />
 										</label>
 										<label for="field5">
-											<span>특징 <span class="required">*</span></span><textarea id="loss_feature" name="loss_feature" class="textarea-field"></textarea>
+											<span>특징 <span class="required">*</span></span><textarea id="feature" name="feature" class="textarea-field"></textarea>
 										</label>
 										<label for="field2">
-											<span>신고경위</span><input type="text" class="input-field" id="loss_process" name="loss_process" value="" />
+											<span>신고경위</span><input type="text" class="input-field" id="process" name="process" value="" />
 										</label>
 										<label for="field2">
-											<span>등록번호</span><input type="text" class="input-field" id="loss_regis_num" name="loss_regis_num" value="" />
+											<span>등록번호</span><input type="text" class="input-field" id="regis_num" name="regis_num" value="" />
 										</label>
 										<label for="field2">
-											<span>RFID_CD</span><input type="text" class="input-field" id="loss_rfid_cd" name="loss_rfid_cd" value="" />
+											<span>RFID_CD</span><input type="text" class="input-field" id="rfid_cd" name="rfid_cd" value="" />
 										</label>
 										<label for="field2">
 											<span>사진</span>
-											<input type="file" id="loss_img_file" name="loss_img_file" onchange="fn_file(this,'loss')" style="margin-top : 5px; margin-bottom : 5px"/>
-											<div id="loss_preimg" name="loss_preimg"></div>
+											<input type="file" id="img_file" name="img_file" onchange="fn_file(this,'loss')" style="margin-top : 5px; margin-bottom : 5px"/>
+											<div id="preimg" name="preimg"></div>
 										</label>
 										<label>
 											<span>&nbsp;</span>
-											<input class="insert-btn" type="button" id="loss_insert" name="loss_insert" onclick="fn_insert('loss')" value="등록" />
+											<input class="insert-btn" type="button" id="insert" name="insert" onclick="fn_insert('loss')" value="등록" />
 											<span>&nbsp;</span>
-											<input class="calcel-btn" type="button" id="loss_cancel" name="loss_cancel" value="취소" />
-										</label>
-									</form>
-								</div>
-							</div>
-							<div id="find" style="height:100%; overflow-y:auto">
-								<li>
-									습득신고
-								</li>
-								<div class="form-style-2">
-									<form id="dataForm" name="dataForm" enctype="multipart/form-data" method="post">
-										<input type="hidden" id="find_lat" name="find_lat" value=""/>
-										<input type="hidden" id="find_long" name="find_long" value=""/>
-										<input type="hidden" id="find_user_id" name="find_user_id" value=""/>
-										<input type="hidden" id="find_insert_date" name="find_insert_date" value=""/>
-										<label for="field1">
-											<span>제목 <span class="required">*</span></span><input type="text" class="input-field" id="find_title" name="find_title" value="" />
-										</label>
-										<label for="field2">
-											<span>습득날짜</span>
-											<div class="date-content">
-												<input type="text" id="find_date" name="find_date" readonly="readonly" value="" class="find-date statistics-date lost-field">
-											</div>
-										</label>
-										<label for="field2">
-											<span>성별</span>
-											<select id="find_sex" name="find_sex" class="select-field">
-												<option value="male">수컷</option>
-												<option value="female">암컷</option>
-											</select>
-										</label>
-										<label for="field2">
-											<span>나이</span><input type="text" class="input-field" id="find_age" name="find_age" value="" />
-										</label>
-										<label for="field4">
-											<span>품종</span>
-											<select id="find_kind" name="find_kind" class="select-field">
-												<option value="dog">개</option>
-												<option value="cat">고양이</option>
-												<option value="etc">기타</option>
-											</select>
-											<input id="find_kind_detail" name="find_kind_detail" type="text" class="kind-field" value="" />
-										</label>
-										<label for="field2">
-											<span>습득장소 <span class="required">*</span></span><input type="text" class="input-field" id="find_place" name="find_place" value="" readonly="readonly"/>
-										</label>
-										<label for="field2">
-											<span></span><input type="text" class="input-field" id="find_place_detail" name="find_place_detail" value="" />
-										</label>
-										<label for="field2">
-											<span>색상</span><input type="text" class="input-field" id="find_color" name="find_color" value="" />
-										</label>
-										<label for="field5">
-											<span>특징 <span class="required">*</span></span><textarea id="find_feature" name="find_feature" class="textarea-field"></textarea>
-										</label>
-										<label for="field2">
-											<span>습득경위</span><input type="text" class="input-field" id="find_process" name="find_process" value="" />
-										</label>
-										<label for="field2">
-											<span>등록번호</span><input type="text" class="input-field" id="find_regis_num" name="find_regis_num" value="" />
-										</label>
-										<label for="field2">
-											<span>RFID_CD</span><input type="text" class="input-field" id="find_rfid_cd" name="find_rfid_cd" value="" />
-										</label>
-										<label for="field2">
-											<span>사진</span>
-											<input type="file" id="find_img_file" name="find_img_file" onchange="fn_file(this,'find')" style="margin-top : 5px; margin-bottom : 5px"/>
-											<div id="find_preimg" name="find_preimg"></div>
-										</label>
-										<label>
-											<span>&nbsp;</span>
-											<input class="insert-btn" type="button" id="find_insert" name="find_insert" onclick="fn_insert('find')" value="등록" />
-											<span>&nbsp;</span>
-											<input class="calcel-btn" type="button" id="find_cancel" name="find_cancel" value="취소" />
+											<input class="calcel-btn" type="button" id="cancel" name="cancel" value="취소" />
 										</label>
 									</form>
 								</div>
@@ -1214,55 +1152,55 @@
 									<form id="dataForm" name="dataForm" method="post">
 										<input type="hidden" id="chat_userName" value="" />
 										<input type="hidden" id="chat_userId" value="" />
-										<label for="field1" id="detail_title">
-											<span>제목</span><input type="text" class="input-field" readonly="readonly" id="loss_detail_title" name="loss_detail_title" value="" />
+										<label for="field1" id="detail_title_label">
+											<span>제목</span><input type="text" class="input-field" readonly="readonly" id="detail_title" name="detail_title" value="" />
 										</label>
-										<label for="field2" id="detail_date">
-											<span>분실날짜</span><input type="text" id="loss_detail_date" name="loss_detail_date" readonly="readonly" value="" class="statistics-date lost-field">
+										<label for="field2" id="detail_date_label">
+											<span>날짜</span><input type="text" id="detail_date" name="detail_date" readonly="readonly" value="" class="statistics-date lost-field">
 										</label>
-										<label for="field2" id="detail_sex">
+										<label for="field2" id="detail_sex_label">
 											<span>성별</span>
-											<select id="loss_detail_sex" name="loss_detail_sex" class="select-field">
+											<select id="detail_sex" name="detail_sex" class="select-field">
 												<option value="male">수컷</option>
 												<option value="female">암컷</option>
 											</select>
 										</label>
-										<label for="field2" id="detail_age">
-											<span>나이</span><input type="text" class="input-field" id="loss_detail_age" name="loss_detail_age" readonly="readonly" value="" />
+										<label for="field2" id="detail_age_label">
+											<span>나이</span><input type="text" class="input-field" id="detail_age" name="detail_age" readonly="readonly" value="" />
 										</label>
-										<label for="field4" id="detail_kind">
+										<label for="field4" id="detail_kind_label">
 											<span>품종</span>
-											<select id="loss_detail_kind" name="loss_detail_kind" class="select-field">
+											<select id="detail_kind" name="detail_kind" class="select-field">
 												<option value="dog">개</option>
 												<option value="cat">고양이</option>
 												<option value="etc">기타</option>
 											</select>
-											<input type="text" id="loss_detail_kind_detail" name="loss_detail_kind_detail" readonly="readonly" value="" class="kind-field">
+											<input type="text" id="detail_kind_detail" name="detail_kind_detail" readonly="readonly" value="" class="kind-field">
 										</label>
-										<label for="field2" id="detail_place">
-											<span>분실장소</span><input type="text" class="input-field" id="loss_detail_place" name="loss_detail_place" value="" readonly="readonly"/>
+										<label for="field2" id="detail_place_label">
+											<span>장소</span><input type="text" class="input-field" id="detail_place" name="detail_place" value="" readonly="readonly"/>
 										</label>
-										<label for="field2" id="detail_place_detail">
-											<span></span><input type="text" class="input-field" id="loss_detail_place_detail" readonly="readonly" name="loss_detail_place_detail" value="" />
+										<label for="field2" id="detail_place_detail_label">
+											<span></span><input type="text" class="input-field" id="detail_place_detail" readonly="readonly" name="detail_place_detail" value="" />
 										</label>
-										<label for="field2" id="detail_color">
-											<span>색상</span><input type="text" class="input-field" readonly="readonly" id="loss_detail_color" name="loss_detail_color" value="" />
+										<label for="field2" id="detail_color_label">
+											<span>색상</span><input type="text" class="input-field" readonly="readonly" id="detail_color" name="detail_color" value="" />
 										</label>
-										<label for="field5" id="detail_feature">
-											<span>특징</span><textarea id="loss_detail_feature" readonly="readonly" name="loss_detail_feature" class="textarea-field"></textarea>
+										<label for="field5" id="detail_feature_label">
+											<span>특징</span><textarea id="detail_feature" readonly="readonly" name="detail_feature" class="textarea-field"></textarea>
 										</label>
-										<label for="field2" id="detail_process">
-											<span>신고경위</span><input type="text" class="input-field" readonly="readonly" id="loss_detail_process" name="loss_detail_process" value="" />
+										<label for="field2" id="detail_process_label">
+											<span>신고경위</span><input type="text" class="input-field" readonly="readonly" id="detail_process" name="detail_process" value="" />
 										</label>
-										<label for="field2" id="detail_regis_num">
-											<span>등록번호</span><input type="text" class="input-field" readonly="readonly" id="loss_detail_regis_num" name="loss_detail_regis_num" value="" />
+										<label for="field2" id="detail_regis_num_label">
+											<span>등록번호</span><input type="text" class="input-field" readonly="readonly" id="detail_regis_num" name="detail_regis_num" value="" />
 										</label>
-										<label for="field2" id="detail_rfid_cd">
-											<span>RFID_CD</span><input type="text" class="input-field" readonly="readonly" id="loss_detail_rfid_cd" name="loss_detail_rfid_cd" value="" />
+										<label for="field2" id="detail_rfid_cd_label">
+											<span>RFID_CD</span><input type="text" class="input-field" readonly="readonly" id="detail_rfid_cd" name="detail_rfid_cd" value="" />
 										</label>
-										<label for="field2" id="detail_img">
+										<label for="field2" id="detail_img_label">
 											<span>사진</span>
-											<img id="loss_detail_img" name="loss_detail_img" src="" width="300px" style="margin-top : 5px; margin-bottom : 5px"/>
+											<img id="detail_img" name="detail_img" src="" width="300px" style="margin-top : 5px; margin-bottom : 5px"/>
 										</label>
 										<label>
 											<span>&nbsp;</span>

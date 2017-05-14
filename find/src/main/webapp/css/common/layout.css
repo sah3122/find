@@ -91,6 +91,14 @@
 	    padding: 20px 12px 10px 20px;
 	    font: 13px Arial, Helvetica, sans-serif;
 	}
+	.form-style-3{
+	    max-width: 500px;
+	    padding: 20px 12px 10px 20px;
+	    font: 13px Arial, Helvetica, sans-serif;
+	  /*   margin-bottom : 10px;
+		position:absolute;
+		bottom:0px; */
+	}
 	.form-style-2 label{
 	    display: block;
 	    margin: 0px 0px 15px 0px;
@@ -127,7 +135,8 @@
 	.form-style-2 input.lost-field, 
 	.form-style-2 .tel-number-field, 
 	.form-style-2 .kind-field,
-	.form-style-2 .textarea-field, 
+	.form-style-2 .textarea-field,
+	.form-style-2 .chat-field,  
 	.form-style-2 .select-field{
 	    box-sizing: border-box;
 	    -webkit-box-sizing: border-box;
@@ -154,8 +163,18 @@
 	    height:100px;
 	    width: 200px;
 	}
+	.form-style-3 .chat-field{
+	    height:34px;
+	    width: 250px;
+	    resize: none;
+     	overflow-y: hidden; /* prevents scroll bar flash */
+     	padding: 1.1em; /* prevents text jump on Enter keypress */
+	    padding-bottom: 0.2em;
+	    line-height: 1.6;
+	}
 	.form-style-2 input[type=submit],
-	.form-style-2 input[type=button]{
+	.form-style-2 input[type=button],
+	.form-style-3 input[type=button]{
 	    border: none;
 	    padding: 8px 15px 8px 15px;
 	    background: #a3a3a3;

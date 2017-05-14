@@ -78,8 +78,8 @@ public class FileUtils {
                 //#####
                 
                 listMap = new HashMap<String,Object>();
-                listMap.put("LOSS_IMG_ORG", originalFileName);
-                listMap.put("LOSS_IMG_STD", storedFileName);
+                listMap.put("IMG_ORG", originalFileName);
+                listMap.put("IMG_STD", storedFileName);
                 //listMap.put("FILE_SIZE", multipartFile.getSize());
                 list.add(listMap);
             }
