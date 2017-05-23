@@ -39,6 +39,7 @@
 <body>
 	
 	<script>
+		//Firebase
 		var auth, database, userInfo;
 		
 		// Initialize Firebase
@@ -61,23 +62,16 @@
 		//인증여부
 		 auth.onAuthStateChanged(function(user){
 			if(user){//인증성공
-				console.log(user.displayName);
-				console.log("success");
 				userInfo = user;
 				
-				console.log(userInfo.uid);
 				$("#login_span").text(userInfo.displayName + "님이 로그인 하셨습니다.  |  ");
 				$("#logout_text").css("display","");
 				$("#login_text").css("display","none");
-				/* var chattingRef = database.ref('chatting/'+userInfo.uid);
-				chattingRef.push({
-					txt:'test',
-					title:'test'
-				}) */
+
 				var param = {"user_id":userInfo.uid, "user_name":user.displayName};
 		    	$.ajax({
 					type : "POST",
-					url : "/test/insertUser.do",
+					url : "/find/insertUser.do",
 					data : param, // 보내는 폼 데이터
 					dataType : "json", // 받는 데이터 타입
 					success : function(data) {
@@ -91,14 +85,8 @@
 						}
 					}
 				});
-			} /* else {//인증실패
-				auth.signInWithPopup(authProvider);
-				$("#login_span").text("");
-				$("#login_text").css("display","");
-				$("#logout_text").css("display","none");
-			} */
+			} 
 		}) 
-	
 	</script>
 
 	<script type="text/javascript">
@@ -121,20 +109,6 @@
 		    dogData = ${dogData};
 		    catData = ${catData};
 		    
-			/* if ($.browser.version < 9) {
-				$(window).resize(function() {
-					resizeHt();
-					resizeWt();
-				});
-				resizeHt();
-				resizeWt();
-			} else {
-				$(window).resize(function() {
-					resizeHt();
-				});
-				$("#content .dashboard .position-control").css({"width" : "calc(100% - 360px)"});
-				resizeHt();
-			} */
 			$(window).resize(function() {
 				resizeHt();
 			});
@@ -176,12 +150,10 @@
 			// 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
 			daum.maps.event.addListener(map, 'zoom_changed', function() {    
 				fn_search_select();
-			    //createCustomOverlay(jsonLossData);
 			});
 			// 지도가 드래그되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
 			daum.maps.event.addListener(map, 'dragend', function() {
 				fn_search_select();
-				//createCustomOverlay(jsonLossData);
 			});
 			
 			// 지도가 이동, 확대, 축소로 인해 지도영역이 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다// 지도가 이동, 확대, 축소로 인해 지도영역이 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다.
@@ -192,14 +164,12 @@
 			daum.maps.event.addListener(map, 'click', function(mouseEvent) {
 			    searchDetailAddrFromCoords(mouseEvent.latLng, function(status, result) {
 			        if (status === daum.maps.services.Status.OK && $("#map_click_check").val() == "true") {
-			            //var detailAddr = !!result[0].roadAddress.name ? '<div>도로명주소 : ' + result[0].roadAddress.name + '</div>' : '';
 			            var detailAddr = result[0].jibunAddress.name;
 			         	// 클릭한 위도, 경도 정보를 가져옵니다 
 			            var latlng = mouseEvent.latLng; 
 			            $("#place").val(detailAddr);	
 			            $("#lat").val(latlng.getLat());
 			            $("#lng").val(latlng.getLng());
-			            console.log(latlng.getLat()+", "+latlng.getLng());
 			            
 						// 마커를 클릭한 위치에 표시합니다 
 			            marker.setPosition(mouseEvent.latLng);
@@ -232,10 +202,6 @@
 			$("#content .position-control").height(getHeight()+53 + "px");
 			$("#content .position-control .position-control-box li:first-child + li").height((getHeight() - 80) + "px");
 			$("#content .pid").height(getHeight()+53 + "px");
-			//메인페이지 li설정위해 주석처리
-			/* $("#content .pid .pid-box li:first-child + li").height((getHeight() - 44) + "px");
-			var liHt = $("#content .pid .pid-box li:first-child + li").height();
-			$("#content .tb01-content").height((liHt - 45) + "px");  */
 			map.relayout();
 		}
 	
@@ -338,7 +304,7 @@
 			param = {"user1_id":user[0].split(',')[0], "user2_id":user[1].split(',')[0], "user1_name":user[0].split(',')[1], "user2_name":user[1].split(',')[1]};
 			$.ajax({
 				type : "POST",
-				url : "/test/testChatInsert.do",
+				url : "/find/findChatInsert.do",
 				data : param, // 보내는 폼 데이터
 				dataType : "json", // 받는 데이터 타입
 				success : function(data) {
@@ -355,7 +321,6 @@
 				console.log("child_added : " + snapshot.val());
 				  
 				var snapVal = snapshot.val();
-			    //console.log("snapshot.val()", snapVal);
 			    var count = 0;
 			    var chartArray = [];
 			    for (var key in snapVal) {
@@ -396,7 +361,7 @@
 			param = {"user_id":userInfo.uid};
 			$.ajax({
 				type : "POST",
-				url : "/test/testChatList.do",
+				url : "/find/findChatList.do",
 				data : param, // 보내는 폼 데이터
 				dataType : "json", // 받는 데이터 타입
 				success : function(data) {
@@ -454,7 +419,6 @@
 			
 			if($("#chat_message").val() != "") {
 				var text = $("#chat_message").val().replace(/\n/g,"<br/>");
-				console.log(text);
 				var user = [userInfo.uid, $("#chat_userId").val()];
 				user.sort();
 				
@@ -463,8 +427,6 @@
 				 chattingRef.push({
 					sendUser: userInfo.displayName,
 					sendId: userInfo.uid,
-					/* receiveUser: $("#chat_userName").val(),
-					receiveId: $("#chat_userId").val(), */
 					text: text,
 					sendDate : nowTime
 				}); 
@@ -495,7 +457,6 @@
 					if(fn_Latlng_check(jsonLossData[i].lat, jsonLossData[i].lng)){
 						var position = new daum.maps.LatLng(jsonLossData[i].lat, jsonLossData[i].lng);
 						var marker = new daum.maps.Marker({
-							/* title : jsonLossData[i].title, */
 							title : jsonLossData[i]._id,
 						    position : position
 						});
@@ -573,14 +534,13 @@
 			    	var param = {"id":marker.getTitle(),"map_type":$("#map_type").val()};
 			    	$.ajax({
 						type : "POST",
-						url : "/test/testDetail.do",
+						url : "/find/findDetail.do",
 						data : param, // 보내는 폼 데이터
 						dataType : "json", // 받는 데이터 타입
 						success : function(data) {
 							// r = 리턴받는 json객체
 							if (data.result == 'success') {
 								fn_detail(data.lossData,002);
-								console.log(data.lossData);
 							} else {
 								alert("알수없는 오류가 발생하였습니다.");
 							}
@@ -588,18 +548,6 @@
 					});
 			    };
 			}
-			//markerPositionJson.positions = markerPositionArray;
-			// 데이터에서 좌표 값을 가지고 마커를 표시합니다
-	        // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
-	        /* var markers = $(markerPositionJson.positions).map(function(i, position) {
-	            return new daum.maps.Marker({
-	            	position : new daum.maps.LatLng(position.lat, position.lng),
-	            });
-	        }); 
-	    	
-	        // 클러스터러에 마커들을 추가합니다
-	        clusterer.addMarkers(markers); */
-			
 		}
 		
 		//지도 클릭시 위치를 가져오기 위한 함수
@@ -625,7 +573,7 @@
 	        var param = {"map_type":$("#map_type").val()};
 	        $.ajax({
 				type : "POST",
-				url : "/test/testLossList.do",
+				url : "/find/findLossList.do",
 				data : param,
 				dataType : "json", // 받는 데이터 타입
 				success : function(data) {
@@ -682,7 +630,7 @@
 		        var formData = new FormData(form);
 				$.ajax({
 					type : "POST",
-					url : "/test/testInsert.do",
+					url : "/find/findInsert.do",
 					//data : $("#dataForm").serialize(), // 보내는 폼 데이터
 					data : formData, // 보내는 폼 데이터
 					dataType : "json", // 받는 데이터 타입
@@ -735,13 +683,11 @@
 		}
 		
 		function fn_detail(data, gubun){
-			//console.log("data : "+ data);
 			if(gubun == 001){
 				var jsonObject = eval(data);
 			} else {
 				var jsonObject = JSON.parse(data);
 			}
-			//console.log(jsonObject.loss_lat + " " + jsonObject.loss_long);
 			$("#chat_userName").val(jsonObject.user_name);
 			$("#chat_userId").val(jsonObject.user_id);
 			
@@ -890,7 +836,7 @@
 			if(kind != ""){
 				$.ajax({
 					type : "POST",
-					url : "/test/testKindAjax.do",
+					url : "/find/findKindAjax.do",
 					data : param, // 보내는 폼 데이터
 					dataType : "json", // 받는 데이터 타입
 					success : function(data) {
@@ -944,7 +890,7 @@
 			param = {"kind":$("#kind").val(),"sex":$("#sex").val(),"kind_detail":$("#kind_detail").val(),"map_type":$("#map_type").val()};
 			$.ajax({
 				type : "POST",
-				url : "/test/testSearchAjax.do",
+				url : "/find/findSearchAjax.do",
 				data : param, // 보내는 폼 데이터
 				dataType : "json", // 받는 데이터 타입
 				success : function(data) {
@@ -969,14 +915,6 @@
 	</script>
 	<div id="header">
 		<div style="width:70%">
-			<!-- 로그인 상태일때 -->
-			<!-- <div class="login-info">
-				<span id="login_user_nm"> test
-				</span>님께서 로그인하셨습니다.
-				<div class="btn-logout" id="logout">로그아웃</div>
-			</div> -->
-			<!-- //로그인 상태일때 -->
-			<!-- 로그인 상태가 아닐때 -->
 			<!-- 로그인 -->
 			<div class="login-info">
 				<span id="login_span"></span>
@@ -984,7 +922,6 @@
 				<a href="javascript:void(0)" id="logout_text" onclick="fn_open_logout()" style="display:none" >로그아웃</a>
 			</div>
 			<!-- // 로그인 -->
-			<!-- //로그인 상태가 아닐때 -->
 			<a href="/intro/intro.do" class="block logo" style="padding:0 0 0 50px"><img src="/images/find_pet_logo.png"  height="70px;" alt="findpet" title="findpet"></a>
 			<ul class="header-menu">
 				<li class="header-menu"><a href="#" onclick="fn_find_main()">메인페이지</a>

@@ -1,0 +1,57 @@
+.date-content {position:relative; display:inline-block; padding-left:20px }
+.ui-datepicker-trigger img {position: absolute; left: 0; top: 10px; }
+select{bottom:0px;position:relative;}
+.wave{margin:0 3px;}
+	
+.label {
+	margin-bottom: 96px;
+}
+
+.label * {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.label .left {
+	background:
+		url("http://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png")
+		no-repeat;
+	display: inline-block;
+	height: 24px;
+	overflow: hidden;
+	vertical-align: top;
+	width: 7px;
+}
+
+.label .center {
+	background:
+		url(http://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png)
+		repeat-x;
+	display: inline-block;
+	height: 24px;
+	font-size: 12px;
+	line-height: 24px;
+}
+
+.label .right {
+	background:
+		url("http://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png")
+		-1px 0 no-repeat;
+	display: inline-block;
+	height: 24px;
+	overflow: hidden;
+	width: 6px;
+}
+.main-list {
+	height : auto;
+	border-bottom : 1px solid #c3c3c3;
+}
+.radius_border{border:1px solid #919191;border-radius:5px;}     
+.custom_typecontrol {position:absolute;top:10px;right:400px;overflow:hidden;width:133px;height:30px;margin:0;padding:0;z-index:2;font-size:12px;font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
+.custom_typecontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
+.custom_typecontrol .btn {background:#fff;background:linear-gradient(#fff,  #e6e6e6);color:#a3a3a3; font-size:12px}       
+.custom_typecontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);}
+.custom_typecontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);}    
+.custom_typecontrol .selected_btn {color:#fff;background:#425470;background:linear-gradient(#425470, #5b6d8a); font-size:12px}
+.custom_typecontrol .selected_btn:hover {color:#fff;}
+#modal {display:none;background-color:#FFFFFF;position:absolute;top:300px;left:200px;padding:10px;border:2px solid #E2E2E2;z-Index:9999}

@@ -1,7 +1,6 @@
-package find.test.controller;
+package find.main.controller;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,19 +21,20 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import find.common.common.CommandMap;
+import find.main.service.MainService;
 import find.test.service.TestService;
 
 @Controller
-public class TestController {
+public class MainController {
 	Logger log = Logger.getLogger(this.getClass());
 	@Value("#{props['common.serverIp']}")
 	private String svrIp;
-	@Resource(name="testService")
-	TestService testService;
+	@Resource(name="mainService")
+	private MainService mainService;
 	
-	@RequestMapping(value="/test/testMain.do")
-	public ModelAndView openTestMain(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("/system/test/test_main2");
+	@RequestMapping(value="/find/findMain.do")
+	public ModelAndView openFindMain(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("/system/find/find_main");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
             Entry<String,Object> entry = null;
@@ -63,9 +63,9 @@ public class TestController {
         return mv;
 	}
 	
-	@RequestMapping(value="/test/testMap.do")
-	public ModelAndView openTestMap(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView("/system/test/test_map");
+	@RequestMapping(value="/find/findMap.do")
+	public ModelAndView openFindMap(CommandMap commandMap) throws Exception{
+		ModelAndView mv = new ModelAndView("/system/find/find_map");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
             Entry<String,Object> entry = null;
@@ -78,16 +78,14 @@ public class TestController {
         
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject("http://localhost:3000/rest/loss/list", String.class);
-        System.out.println(result);
         JSONArray jsonArray = new JSONArray(result);
-        System.out.println(jsonArray);
         
         mv.addObject("lossData", jsonArray.toString());
         return mv;
 	}
 	
-	@RequestMapping(value="/test/testInsert.do")
-	public ModelAndView openTestInsert(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/find/findInsert.do")
+	public ModelAndView openFindInsert(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
@@ -98,23 +96,17 @@ public class TestController {
                 
             }
         }
-        Map<String, Object> fileMap = (Map<String, Object>) testService.insertFileData(commandMap.getMap(), request);
+        Map<String, Object> fileMap = (Map<String, Object>) mainService.insertFileData(commandMap.getMap(), request);
         String result = "";
         String findList = "";
         String pushTo = "";
-        double lossLat;
-        double lossLng;
-        double lat;
-        double lng;
-        double absLat;
-        double absLng;
+        double lossLat, lossLng, lat, lng, absLat, absLng;
         double cprLat = 0.04003746243;
         double cprLng = 0.02243791391;
         
         
         commandMap.put("img_org", fileMap.get("img_org"));
         commandMap.put("img_std", fileMap.get("img_std"));
-        System.out.println(commandMap.getMap().toString());
         //헤더에 데이터를 실어 보내기위해 json객체로 만듬
         JSONObject jsonObject = new JSONObject(commandMap.getMap());
         //헤더에 데이터를 실는 작업
@@ -159,7 +151,7 @@ public class TestController {
 		        	        notidata.put("title","5km 근방에 습득 동물이 접수되었습니다.");
 		        	        data.put("score","5x1");
 		        	        data.put("time","15:10");
-		        	        data.put("message","test2");
+		        	        data.put("message","FindPet");
 		        	        body.put("notification", notidata);
 		        	        body.put("data", data);
 		        	        body.put("to", pushObject.get("user_token"));
@@ -185,8 +177,8 @@ public class TestController {
 	}
 	
 	
-	@RequestMapping(value="/test/testDetail.do")
-	public ModelAndView openTestDetail(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/find/findDetail.do")
+	public ModelAndView openFindDetail(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
@@ -205,11 +197,9 @@ public class TestController {
         } else {
         	lossList = restTemplate.getForObject("http://localhost:3000/rest/find/list/id/"+commandMap.getMap().get("id"), String.class);
         }
-        /*String lossList = restTemplate.getForObject("http://localhost:3000/rest/loss/list/"+commandMap.getMap().get("loss_title"), String.class);*/
         if(lossList != null){
         	result = "success";
         }
-        System.out.println(lossList);
         JSONObject jsonObject = new JSONObject(lossList);
         mv.addObject("result", result);
         mv.addObject("lossData", jsonObject.toString());
@@ -217,8 +207,8 @@ public class TestController {
         return mv;
 	}
 	
-	@RequestMapping(value="/test/testLossList.do")
-	public ModelAndView openTestLossList(CommandMap commandMap) throws Exception{
+	@RequestMapping(value="/find/findLossList.do")
+	public ModelAndView openFindLossList(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
@@ -242,7 +232,6 @@ public class TestController {
         if(lossList != null){
         	result = "success";
         }
-        System.out.println(lossList);
         JSONArray jsonArray = new JSONArray(lossList);
         mv.addObject("result", result);
         mv.addObject("lossData", jsonArray.toString());
@@ -250,8 +239,8 @@ public class TestController {
         return mv;
 	}
 	
-	@RequestMapping(value="/test/testFindList.do")
-	public ModelAndView openTestFindList(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/find/findFindList.do")
+	public ModelAndView openFindList(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
@@ -268,7 +257,6 @@ public class TestController {
         if(findList != null){
         	result = "success";
         }
-        System.out.println(findList);
         JSONArray jsonArray = new JSONArray(findList);
         mv.addObject("result", result);
         mv.addObject("findData", jsonArray.toString());
@@ -276,8 +264,8 @@ public class TestController {
         return mv;
 	}
 	
-	@RequestMapping(value="/test/testKindAjax.do")
-	public ModelAndView openTestKindAjax(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/find/findKindAjax.do")
+	public ModelAndView openKindAjax(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
@@ -305,8 +293,8 @@ public class TestController {
         return mv;
 	}
 	
-	@RequestMapping(value="/test/testSearchAjax.do")
-	public ModelAndView openTestSearchAjax(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/find/findSearchAjax.do")
+	public ModelAndView openSearchAjax(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
@@ -318,7 +306,6 @@ public class TestController {
             }
         }
         String result = "";
-        /*String url = "http://localhost:3000/rest/chat/list/user/"+commandMap.getMap().get("user");*/
         String url = "";
         if(commandMap.getMap().get("map_type").equals("loss")){
         	url = "http://localhost:3000/rest/loss/list/kind/"+commandMap.getMap().get("kind")+"/detail/"+commandMap.getMap().get("kind_detail")+"/sex/"+commandMap.getMap().get("sex");
@@ -336,8 +323,8 @@ public class TestController {
         return mv;
 	}
 	
-	@RequestMapping(value="/test/testChatInsert.do")
-	public ModelAndView openTestChatInsert(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/find/findChatInsert.do")
+	public ModelAndView openChatInsert(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
@@ -367,8 +354,8 @@ public class TestController {
         return mv;
 	}
 	
-	@RequestMapping(value="/test/testChatList.do")
-	public ModelAndView openTestChatList(CommandMap commandMap, HttpServletRequest request) throws Exception{
+	@RequestMapping(value="/find/findChatList.do")
+	public ModelAndView openChatList(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
             Iterator<Entry<String,Object>> iterator = commandMap.getMap().entrySet().iterator();
@@ -393,7 +380,7 @@ public class TestController {
 	}
 	
 	
-	@RequestMapping(value="/test/insertUser.do")
+	@RequestMapping(value="/find/insertUser.do")
 	public ModelAndView insertUser(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
         if(commandMap.isEmpty() == false){
